@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="源文件\test">
+      <UniqueIdentifier>{fd847e0f-4390-46de-bda3-1944e4dfea77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\allocator">
+      <UniqueIdentifier>{9a8ce74d-992c-4ddc-9863-1d973e73298d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\allocator">
+      <UniqueIdentifier>{982f359a-a7bd-4fce-96b7-2108ea10334d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\iterators">
+      <UniqueIdentifier>{d8dcd535-6280-4a15-8cb2-4a22b081d578}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\iterators">
+      <UniqueIdentifier>{26429eab-bcf4-4bf8-a7b8-003ccf9c9a8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\vector">
+      <UniqueIdentifier>{4aac0a48-7aba-4682-9219-f9c41a1dd152}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="test\lconfig5.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\lconfig6.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\lconfig8.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\lconfig10.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\lconfig11.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\lconfig-null-template-arguments.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\lconfig-operator-overloading.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\lconfig-template-exp-special.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\lconfig-temporary-object.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="test\lfunctor.cpp">
+      <Filter>源文件\test</Filter>
+    </ClCompile>
+    <ClCompile Include="kamaalloc.cpp">
+      <Filter>源文件\allocator</Filter>
+    </ClCompile>
+    <ClCompile Include="myIter.cpp">
+      <Filter>源文件\iterators</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="kamaalloc.h">
+      <Filter>头文件\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="malloc_alloc_template.h">
+      <Filter>头文件\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="_default_alloc_template.h">
+      <Filter>头文件\allocator</Filter>
+    </ClInclude>
+    <ClInclude Include="3myList.h">
+      <Filter>头文件\iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="myIter.h">
+      <Filter>头文件\iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="KamaVector.h">
+      <Filter>头文件\vector</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

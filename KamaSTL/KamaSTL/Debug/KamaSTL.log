@@ -1,0 +1,36 @@
+﻿生成启动时间为 2016/7/19 23:08:20。
+     1>项目“D:\Git\KamaSTL\KamaSTL\KamaSTL.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt kamaalloc.cpp myIter.cpp "test\lconfig-null-template-arguments.cpp" "test\lconfig-operator-overloading.cpp" "test\lconfig-template-exp-special.cpp" "test\lconfig-temporary-object.cpp" test\lconfig10.cpp test\lconfig11.cpp test\lconfig5.cpp test\lconfig6.cpp test\lconfig8.cpp test\lfunctor.cpp
+         lfunctor.cpp
+         lconfig8.cpp
+         lconfig6.cpp
+         lconfig5.cpp
+         lconfig11.cpp
+         lconfig10.cpp
+         lconfig-temporary-object.cpp
+         lconfig-template-exp-special.cpp
+         lconfig-operator-overloading.cpp
+         lconfig-null-template-arguments.cpp
+         myIter.cpp
+         kamaalloc.cpp
+         正在生成代码...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Git\KamaSTL\Debug\KamaSTL.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Git\KamaSTL\Debug\KamaSTL.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Git\KamaSTL\Debug\KamaSTL.lib" /MACHINE:X86 Debug\kamaalloc.obj
+         Debug\myIter.obj
+         "Debug\lconfig-null-template-arguments.obj"
+         "Debug\lconfig-operator-overloading.obj"
+         "Debug\lconfig-template-exp-special.obj"
+         "Debug\lconfig-temporary-object.obj"
+         Debug\lconfig10.obj
+         Debug\lconfig11.obj
+         Debug\lconfig5.obj
+         Debug\lconfig6.obj
+         Debug\lconfig8.obj
+         Debug\lfunctor.obj
+         KamaSTL.vcxproj -> D:\Git\KamaSTL\Debug\KamaSTL.exe
+     1>已完成生成项目“D:\Git\KamaSTL\KamaSTL\KamaSTL.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:04.60
