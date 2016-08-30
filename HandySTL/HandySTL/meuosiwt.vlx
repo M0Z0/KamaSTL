@@ -100,7 +100,7 @@ namespace HandySTL{
 
 	template <class Iterator>
 	inline typename iterator_traits<iterator>::iterator_category
-		iterator_category(const Iterator&) {
+		iterator_category(const Iterator& It) {
 			typedef typename iterator_traits<Iterator>::iterator_category category;
 			return category();
 	}
