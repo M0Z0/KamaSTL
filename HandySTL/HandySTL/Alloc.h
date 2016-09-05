@@ -42,6 +42,7 @@ namespace HandySTL{
 		static void deallocate(void *ptr, size_t bytes);
 		static void *reallocate(void *ptr, size_t old_sz, size_t new_sz);
 	};
+	
 }
 
 #endif
