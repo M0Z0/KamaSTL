@@ -79,9 +79,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Alloc.h" />
+    <ClInclude Include="Allocator.h" />
     <ClInclude Include="Construct.h" />
+    <ClInclude Include="impl\Vector.impl.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="Type_traits.h" />
+    <ClInclude Include="uninitialized.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alloc.cpp" />
