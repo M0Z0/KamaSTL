@@ -6,7 +6,7 @@
 namespace HandySTL{
 
 	template <class T, class Alloc = allocator<T>>
-	class Vector{
+	class vector{
 	public:
 		typedef T value_type;
 		typedef T* pointer;
@@ -17,22 +17,22 @@ namespace HandySTL{
 		typedef ptrdiff_t difference_type;
 
 	private:
-		iterator start;
-		iterator finish;
-		iterator end_of_storage;
+		pointer start;
+		pointer finish;
+		pointer end_of_storage;
 
 	public:
 		//构造、拷贝构造、析构
-		Vector() :start(nullptr), finish(nullptr), end_of_storage(nullptr) {}
-		explicit Vector(const size_type n);
-		explicit Vector(const size_type n, value_type& value);
+		vector() :start(nullptr), finish(nullptr), end_of_storage(nullptr) {}
+		explicit vector(const size_type n);
+		explicit vector(const size_type n, value_type& value);
 
 	private:
-		
+		void allocate_and_fill(const size_type n, const value_type& value);
 	};//end of class
 
 }
 
-#include "impl/Vector.impl.h"
+#include "impl/vector.impl.h"
 
 #endif
