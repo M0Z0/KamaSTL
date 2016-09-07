@@ -22,6 +22,14 @@ namespace HandySTL{
 		HandySTL::uninitialized_fill_n(start, n, value);
 		finish = end_of_storage = start + n;
 	}
+
+	template <class T, class Alloc>
+	template <class InputIterator>
+	void vector<T, Alloc>::allocate_and_copy(InputIterator first, InputIterator last) {
+		start = alloc::allocate(n);
+		finish = HandySTL::uninitialized_copy(first, last, start);
+		finish = end_of_storage = start + n;
+	}
 }
 
 #endif

@@ -29,6 +29,8 @@ namespace HandySTL{
 
 	private:
 		void allocate_and_fill(const size_type n, const value_type& value);
+		template<class InputIterator>
+		void allocateAndCopy(InputIterator first, InputIterator last);
 	};//end of class
 
 }
