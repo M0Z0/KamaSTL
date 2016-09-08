@@ -1,6 +1,6 @@
 #ifndef __H_ITERATOR__
 #define  __H_ITERATOR__
-#include <cstddef>
+//#include <cstddef>
 
 namespace HandySTL{
 
@@ -84,8 +84,8 @@ namespace HandySTL{
 		typedef random_access_iterator_tag iterator_category;
 		typedef T value_type;
 		typedef ptrdiff_t difference_type;
-		typedef T* pointer pointer;
-		typedef T& reference reference;
+		typedef T* pointer;
+		typedef T& reference;
 	};
 
 	template <class T>
@@ -94,16 +94,26 @@ namespace HandySTL{
 		typedef random_access_iterator_tag iterator_category;
 		typedef T value_type;
 		typedef ptrdiff_t difference_type;
-		typedef T* pointer pointer;
-		typedef T& reference reference;
+		typedef const T* pointer;
+		typedef const T& reference;
 	};
 
-	template <class Iterator>
-	inline typename iterator_traits<iterator>::iterator_category
-		iterator_category(const Iterator&) {
+	template<class Iterator>
+	inline typename iterator_traits<Iterator>::iterator_category
+		iterator_category(const Iterator& It){
 			typedef typename iterator_traits<Iterator>::iterator_category category;
 			return category();
-	}
+		}
+	template<class Iterator>
+	inline typename iterator_traits<Iterator>::value_type*
+		value_type(const Iterator& It){
+			return static_cast<typename iterator_traits<Iterator>::value_type*>(0);
+		}
+	template<class Iterator>
+	inline typename iterator_traits<Iterator>::difference_type*
+		difference_type(const Iterator& It){
+			return static_cast<typename iterator_traits<Iterator>::difference_type*>(0);
+		}
 }
 
 #endif

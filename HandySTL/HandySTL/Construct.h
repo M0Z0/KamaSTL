@@ -2,6 +2,7 @@
 #define __H_CONSTRUCT__
 
 #include <new.h>
+#include "Type_traits.h"
 
 namespace HandySTL{
 

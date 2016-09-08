@@ -86,10 +86,12 @@
     <ClInclude Include="Type_traits.h" />
     <ClInclude Include="uninitialized.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="vectorTest.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alloc.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="vectorTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

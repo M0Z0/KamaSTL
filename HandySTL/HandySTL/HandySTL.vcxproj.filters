@@ -16,6 +16,9 @@
     <Filter Include="impl">
       <UniqueIdentifier>{745364dc-16aa-4594-88b8-5e4394bd3f96}</UniqueIdentifier>
     </Filter>
+    <Filter Include="test">
+      <UniqueIdentifier>{ca6002b8-3e1c-4583-8d5f-a9408020eb62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Iterator.h">
@@ -42,6 +45,9 @@
     <ClInclude Include="uninitialized.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="vectorTest.h">
+      <Filter>test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alloc.cpp">
@@ -49,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="vectorTest.cpp">
+      <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
