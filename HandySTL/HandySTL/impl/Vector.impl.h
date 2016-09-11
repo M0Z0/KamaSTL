@@ -54,7 +54,46 @@ namespace HandySTL{
 	}
 
 	template <class T, class Alloc>
-	void vector<T, Alloc>::push_back(const value_type& value);
+	void vector<T, Alloc>::push_back(const value_type& value) {
+		if (_finish != _end_of_storage) {
+			construct(_finish, value);
+			++_finish;
+		}
+		else
+			insert_aux(end(), x);
+	}
+
+	template <class T, class Alloc>
+	void vector<T, Alloc>::insert_aux(iterator position, const T& value) {
+		if (_finish != _end_of_storage) {
+			construct(_finish, *(_finish - 1));
+			++_finish;
+			T value_copy = value;
+			std::copy_backward(position, _finish - 1, _finish - 2);
+			*position = value_copy;
+		}
+		else{//无备用空间
+			const size_type oldSize = size();
+			const size_type len = oldSize != 0 ? 2 * oldSize : 1;
+
+			iterator newStart = dataAllocator::allocate(len);
+			iterator newFinish = nullptr;
+			try {
+				newStart = uninitialized_copy(_start, position, newStart);
+				construct(newFinish, value);
+				++newFinish;
+				newFinish = uninitialized_copy(position, _finish, newFinish);
+			}catch (...) {
+				destroy(newStart, newFinish);
+				dataAllocator::deallocate(newStart, len);
+				throw;
+			}
+			
+			destroy(begin(), end());
+			deallocate();
+		}
+		
+	}
 
 	template <class T, class Alloc>
 	void vector<T, Alloc>::allocate_and_fill(const size_type n, const value_type& value) {

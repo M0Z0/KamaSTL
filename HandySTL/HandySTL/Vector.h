@@ -51,6 +51,7 @@ namespace HandySTL{
 		void allocate_and_fill(const size_type n, const value_type& value);
 		template<class InputIterator>
 		void allocate_and_copy(InputIterator first, InputIterator last);
+		void insert_aux(iterator position, const T& x);
 	};//end of class
 
 }
