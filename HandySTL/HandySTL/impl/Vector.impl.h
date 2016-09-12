@@ -23,7 +23,7 @@ namespace HandySTL{
 
 	template <class T, class Alloc>
 	vector<T, Alloc>::~vector() {
-		destroyAndDeallocateAll;
+		destroyAndDeallocateAll();
 	}
 
 	template <class T, class Alloc>
@@ -64,7 +64,30 @@ namespace HandySTL{
 	}
 
 	template <class T, class Alloc>
-	void vector<T, Alloc>::insert_aux(iterator position, const T& value) {
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator first, iterator last) { //返回值需要指定为类型
+		iterator i = std::copy(last, _finish, first);
+		dataAllocator::destroy(i, _finish);
+		_finish = _finish - (last - first);
+		return first;
+	}
+
+	template <class T, class Alloc>
+	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(pointer position) { //返回值需要指定为类型
+		if (position + 1 != end())
+			std::copy(position+1, _finish, position);
+		--_finish;
+		dataAllocator::destroy(_finish);
+		return position;
+	}
+
+	template<class T, class Alloc>
+	void vector<T, Alloc>::pop_back(){
+		--_finish;
+		dataAllocator::destroy(_finish);
+	}
+
+	template <class T, class Alloc>
+	void vector<T, Alloc>::insert_aux(pointer position, const T& value) {
 		if (_finish != _end_of_storage) {
 			construct(_finish, *(_finish - 1));
 			++_finish;
@@ -76,10 +99,10 @@ namespace HandySTL{
 			const size_type oldSize = size();
 			const size_type len = oldSize != 0 ? 2 * oldSize : 1;
 
-			iterator newStart = dataAllocator::allocate(len);
-			iterator newFinish = nullptr;
+			pointer newStart = dataAllocator::allocate(len);
+			pointer newFinish = nullptr;
 			try {
-				newStart = uninitialized_copy(_start, position, newStart);
+				newFinish = uninitialized_copy(_start, position, newStart);
 				construct(newFinish, value);
 				++newFinish;
 				newFinish = uninitialized_copy(position, _finish, newFinish);
@@ -89,8 +112,11 @@ namespace HandySTL{
 				throw;
 			}
 			
-			destroy(begin(), end());
-			deallocate();
+			destroyAndDeallocateAll();
+
+			_start = newStart;
+			_finish = newFinish;
+			_end_of_storage = newStart + len;
 		}
 		
 	}

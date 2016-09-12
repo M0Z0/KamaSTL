@@ -10,6 +10,7 @@ namespace HandySTL{
 	public:
 		typedef T value_type;
 		typedef T* pointer;
+		typedef T* iterator;
 		typedef const T* const_pointer;
 		typedef T& reference;
 		typedef const T& const_reference;
@@ -39,19 +40,22 @@ namespace HandySTL{
 		bool empty() { return (_start == _finish); }
 
 		//µü´úÆ÷Ïà¹Ø
-		iterator begin() { return (_start); }
-		iterator begin() const { return (_start); }
-		iterator end() { return (_finish); }
-		iterator end() const { return (_finish); }
+		pointer begin() { return (_start); }
+		pointer begin() const { return (_start); }
+		pointer end() { return (_finish); }
+		pointer end() const { return (_finish); }
 
 		void push_back(const value_type& value);
+		void pop_back();
 
 	private:
 		void destroyAndDeallocateAll();
 		void allocate_and_fill(const size_type n, const value_type& value);
 		template<class InputIterator>
 		void allocate_and_copy(InputIterator first, InputIterator last);
-		void insert_aux(iterator position, const T& x);
+		void insert_aux(pointer position, const T& x);
+		pointer erase(iterator first, iterator last);
+		pointer erase(pointer position);
 	};//end of class
 
 }
