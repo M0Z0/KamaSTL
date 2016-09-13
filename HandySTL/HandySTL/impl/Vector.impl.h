@@ -64,6 +64,30 @@ namespace HandySTL{
 	}
 
 	template <class T, class Alloc>
+	void vector<T, Alloc>::resize(size_type n, value_type val = value_type()) {
+		if (n < size()) {
+			dataAllocator::destroy(_start + n, _finish);
+			_finish = _start + n;
+		}
+		else if (n > size() && n < capacity()) {
+			auto lengthOfInsert = n - size();
+			_finish = uninitialized_fill_n(_finish, lengthOfInsert, val);
+		}
+		else if (n > capacity()){
+			auto lengthOfInsert = n - size();
+			T *newStart = dataAllocator::allocate(getNewCapacity(lengthOfInsert));
+			T *newFinish = HandySTL::uninitialized_copy(begin(), end(), newStart);
+			newFinish = HandySTL::uninitialized_fill_n(newFinish, lengthOfInsert, val);
+
+			destroyAndDeallocateAll();
+			_start = newStart;
+			_finish = newFinish;
+			_end_of_storage = _start + n;
+		}
+		
+	}
+
+	template <class T, class Alloc>
 	typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(iterator first, iterator last) { //返回值需要指定为类型
 		iterator i = std::copy(last, _finish, first);
 		dataAllocator::destroy(i, _finish);
@@ -102,16 +126,15 @@ namespace HandySTL{
 			pointer newStart = dataAllocator::allocate(len);
 			pointer newFinish = nullptr;
 			try {
-				newFinish = uninitialized_copy(_start, position, newStart);
+				newFinish = HandySTL::uninitialized_copy(_start, position, newStart);
 				construct(newFinish, value);
 				++newFinish;
-				newFinish = uninitialized_copy(position, _finish, newFinish);
+				newFinish = HandySTL::uninitialized_copy(position, _finish, newFinish);
 			}catch (...) {
 				destroy(newStart, newFinish);
 				dataAllocator::deallocate(newStart, len);
 				throw;
-			}
-			
+			}		
 			destroyAndDeallocateAll();
 
 			_start = newStart;
@@ -119,6 +142,40 @@ namespace HandySTL{
 			_end_of_storage = newStart + len;
 		}
 		
+	}
+
+	template <class T, class Alloc>
+	typename vector<T, Alloc>::iterator 
+		vector<T, Alloc>::insert(iterator position, const value_type& val) {
+
+	}
+
+	template <class T, class Alloc>
+	void vector<T, Alloc>::insert(iterator position, const size_type& n, const value_type& val) {
+			if (_finish+n <= _end_of_storage && position < _finish) {
+				iterator positionOrigin = position;
+				iterator positionDes = position+n;
+				std::copy_backward(position, positionDes, positionDes);
+				for (; position != positionDes; ++positionOrigin)
+					construct(position, val);			
+			} 
+			else if (_finish + n <= _end_of_storage && position >= _finish) {
+				iterator positionOrigin = position;
+				iterator positionDes = position + n;
+				for (; position != positionDes; ++positionOrigin)
+					construct(position, val);
+			}
+			else{
+				const size_type oldSize = _end_of_storage + n;
+				const size_type newSize = oldSize != 0 ? 2 * oldSize : 1;
+				pointer newStart = dataAllocator::allocate(newSize);
+				pointer newFinish = nullptr;
+				newFinish = HandySTL::uninitialized_copy(_start, _finish, newStart);
+				//TODO
+
+				
+			}
+			
 	}
 
 	template <class T, class Alloc>
@@ -142,6 +199,14 @@ namespace HandySTL{
 			dataAllocator::destroy(_start, _finish);
 			dataAllocator::deallocate(_start, capacity());
 		}
+	}
+
+	template<class T, class Alloc>
+	typename vector<T, Alloc>::size_type vector<T, Alloc>::getNewCapacity(size_type len) const {
+		size_type oldCapacity = _end_of_storage - _start;
+		auto res = oldCapacity > len ? oldCapacity : len;
+		size_type newCapacity = (oldCapacity != 0 ? (oldCapacity + res) : len);
+		return newCapacity;
 	}
 
 }

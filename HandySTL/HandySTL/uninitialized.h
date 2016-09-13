@@ -54,7 +54,7 @@ namespace HandySTL{
 	ForwardIterator _uninitialized_copy_aux(InputIterator first, InputIterator last, ForwardIterator result, _false_type);
 	//
 	template <class InputIterator, class ForwardIterator>
-	ForwardIterator uninitialized_copy_aux(InputIterator first, InputIterator last, ForwardIterator result) {
+	ForwardIterator uninitialized_copy(InputIterator first, InputIterator last, ForwardIterator result) {
 		typedef typename _type_traits<iterator_traits<InputIterator>::value_type>::is_POD_type isPODtype;
 		return _uninitialized_copy_aux(first, last, result, isPODtype());
 	}

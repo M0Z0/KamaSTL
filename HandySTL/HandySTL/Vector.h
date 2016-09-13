@@ -38,6 +38,7 @@ namespace HandySTL{
 		difference_type size() const { return _finish - _start; }
 		difference_type capacity() const { return _end_of_storage - _start; }
 		bool empty() { return (_start == _finish); }
+		void resize(size_type n, value_type val = value_type());
 
 		//µü´úÆ÷Ïà¹Ø
 		pointer begin() { return (_start); }
@@ -47,6 +48,10 @@ namespace HandySTL{
 
 		void push_back(const value_type& value);
 		void pop_back();
+		iterator insert(iterator position, const value_type& val);
+		void insert(iterator position, const size_type& n, const value_type& val);
+		pointer erase(iterator first, iterator last);
+		pointer erase(pointer position);
 
 	private:
 		void destroyAndDeallocateAll();
@@ -54,8 +59,7 @@ namespace HandySTL{
 		template<class InputIterator>
 		void allocate_and_copy(InputIterator first, InputIterator last);
 		void insert_aux(pointer position, const T& x);
-		pointer erase(iterator first, iterator last);
-		pointer erase(pointer position);
+		size_type getNewCapacity(size_type len) const;
 	};//end of class
 
 }
