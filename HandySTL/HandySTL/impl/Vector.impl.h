@@ -152,29 +152,45 @@ namespace HandySTL{
 
 	template <class T, class Alloc>
 	void vector<T, Alloc>::insert(iterator position, const size_type& n, const value_type& val) {
-			if (_finish+n <= _end_of_storage && position < _finish) {
-				iterator positionOrigin = position;
-				iterator positionDes = position+n;
-				std::copy_backward(position, positionDes, positionDes);
-				for (; position != positionDes; ++positionOrigin)
-					construct(position, val);			
-			} 
-			else if (_finish + n <= _end_of_storage && position >= _finish) {
-				iterator positionOrigin = position;
-				iterator positionDes = position + n;
-				for (; position != positionDes; ++positionOrigin)
-					construct(position, val);
-			}
-			else{
-				const size_type oldSize = _end_of_storage + n;
-				const size_type newSize = oldSize != 0 ? 2 * oldSize : 1;
-				pointer newStart = dataAllocator::allocate(newSize);
-				pointer newFinish = nullptr;
-				newFinish = HandySTL::uninitialized_copy(_start, _finish, newStart);
-				//TODO
+			//if (_finish+n <= _end_of_storage && position < _finish) {
+			//	iterator positionOrigin = position;
+			//	iterator positionDes = position+n;
+			//	std::copy_backward(position, positionDes, positionDes);
+			//	for (; position != positionDes; ++positionOrigin)
+			//		construct(position, val);			
+			//} 
+			//else if (_finish + n <= _end_of_storage && position >= _finish) {
+			//	iterator positionOrigin = position;
+			//	iterator positionDes = position + n;
+			//	for (; position != positionDes; ++positionOrigin)
+			//		construct(position, val);
+			//}
+			//else{
+			//	const size_type oldSize = _end_of_storage + n;
+			//	const size_type newSize = oldSize != 0 ? 2 * oldSize : 1;
+			//	pointer newStart = dataAllocator::allocate(newSize);
+			//	pointer newFinish = nullptr;
+			//	newFinish = HandySTL::uninitialized_copy(_start, _finish, newStart);
+			//	//TODO
 
+			//	
+			//}
+		if (n != 0) {
+			if (size_type(_end_of_storage-_finish) >= n) {//剩余空间大于需要空间
+				T valTmp = val;
+				//插入点后现有元素个数
+				const size_type elemsAfter = _finish - position;
+				iterator oldFinish = _finish;
+				if (elemsAfter > n) {
+					HandySTL::uninitialized_copy(_finish - n, _finish, _finish);
+					_finish += n;
+					std::copy_backward()
+				}
 				
 			}
+			
+		}
+		
 			
 	}
 
