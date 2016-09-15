@@ -33,6 +33,7 @@ namespace HandySTL{
 		~vector();
 		vector& operator=(const vector&);
 		vector& operator=(vector&&);
+		reference operator[](const difference_type i){ return *(begin() + i); }
 
 		//ÈÝÁ¿Ïà¹Ø
 		difference_type size() const { return _finish - _start; }

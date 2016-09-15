@@ -1,8 +1,10 @@
 #ifndef __H_VECTOR_IMPL__
 #define __H_VECTOR_IMPL__
+#pragma warning(disable : 4996)
 
-#include "vector.h"
-#include "uninitialized.h"
+#include "../vector.h"
+#include "../uninitialized.h"
+#include <algorithm>
 
 namespace HandySTL{
 
@@ -60,7 +62,7 @@ namespace HandySTL{
 			++_finish;
 		}
 		else
-			insert_aux(end(), x);
+			insert_aux(end(), value);
 	}
 
 	template <class T, class Alloc>
