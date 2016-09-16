@@ -83,6 +83,7 @@
     <ClInclude Include="Construct.h" />
     <ClInclude Include="impl\Vector.impl.h" />
     <ClInclude Include="Iterator.h" />
+    <ClInclude Include="TestUtil.h" />
     <ClInclude Include="Type_traits.h" />
     <ClInclude Include="uninitialized.h" />
     <ClInclude Include="Vector.h" />

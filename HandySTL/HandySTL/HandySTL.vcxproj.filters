@@ -48,6 +48,9 @@
     <ClInclude Include="vectorTest.h">
       <Filter>test</Filter>
     </ClInclude>
+    <ClInclude Include="TestUtil.h">
+      <Filter>test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alloc.cpp">

@@ -27,7 +27,7 @@ namespace HandySTL{
 		//构造、拷贝构造、析构
 		vector() :_start(nullptr), _finish(nullptr), _end_of_storage(nullptr) {}
 		explicit vector(const size_type n);
-		explicit vector(const size_type n, value_type& value);
+		vector(const size_type n, const value_type& value);
 		vector(const vector&);
 		vector(vector&&); //move construct
 		~vector();
