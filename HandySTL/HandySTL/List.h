@@ -16,7 +16,7 @@ namespace HandySTL{
 		T data;
 		list_node *prev;
 		list_node *next;
-
+		list_node(T d) :data(d), prev(nullptr), next(nullptr) {}
 	};
 
 	//list iterator
@@ -41,6 +41,32 @@ namespace HandySTL{
 		friend bool operator ==(const listIterator<T>& lhs, const listIterator<T>& rhs);
 		template<class T>
 		friend bool operator !=(const listIterator<T>& lhs, const listIterator<T>& rhs);
+	};
+
+	//class of list
+	template <class T>
+	class list{
+		template<class T>
+		friend struct list_iterator;
+	private:
+		typedef allocator<list_node<T>> nodeAllocator;
+		typedef list_node<T> *nodePtr;
+	public:
+		typedef T value_type;
+		typedef list_iterator<T> iterator;
+		typedef list_iterator<const T> const_iterator;
+		typedef T& reference;
+		typedef size_t size_type;
+	private:
+		iterator head;
+		iterator tail;
+	public:
+		list();
+		explicit list(size_type n, const value_type& val = value_type());
+	private:
+		void emptyInit();
+		nodePtr createNode(const T& val = T());
+		void destroyNode(nodePtr);
 	};
 }
 #endif
