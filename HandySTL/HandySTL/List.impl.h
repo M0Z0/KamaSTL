@@ -58,6 +58,13 @@ namespace HandySTL{
 
 	}
 	template <class T>
-	list<T>::list():
+	list<T>::list() {
+		emptyInit();
+	}
+
+	template<class T>
+	void list<T>::push_back(const value_type& val) {
+		auto newNode = createNode(val);
+	}
 }
 #endif

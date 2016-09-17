@@ -3,7 +3,7 @@
 
 #include "Allocator.h"
 #include "Iterator.h"
-
+#include <list>
 #include "Type_traits.h"
 
 namespace HandySTL{
@@ -16,7 +16,7 @@ namespace HandySTL{
 		T data;
 		list_node *prev;
 		list_node *next;
-		list_node(T d) :data(d), prev(nullptr), next(nullptr) {}
+		list_node(const T &d) :data(d), prev(nullptr), next(nullptr) {}
 	};
 
 	//list iterator
@@ -50,23 +50,23 @@ namespace HandySTL{
 		friend struct list_iterator;
 	private:
 		typedef allocator<list_node<T>> nodeAllocator;
-		typedef list_node<T> *nodePtr;
+		typedef list_node<T> *node;
 	public:
 		typedef T value_type;
 		typedef list_iterator<T> iterator;
 		typedef list_iterator<const T> const_iterator;
 		typedef T& reference;
 		typedef size_t size_type;
-	private:
-		iterator head;
-		iterator tail;
 	public:
 		list();
 		explicit list(size_type n, const value_type& val = value_type());
+
+		iterator begin() { return }
 	private:
 		void emptyInit();
-		nodePtr createNode(const T& val = T());
-		void destroyNode(nodePtr);
+		node createNode(const T& val = T());
+		void destroyNode(node);
+		void push_back(const value_type& val);
 	};
 }
 #endif
