@@ -14,27 +14,30 @@ namespace HandySTL{
 	template <class T>
 	struct list_node{
 		T data;
-		list_node *prev;
-		list_node *next;
-		list_node(const T &d) :data(d), prev(nullptr), next(nullptr) {}
+		void *prev;
+		void *next;
+		//list_node(const T &d) :data(d), prev(nullptr), next(nullptr) {}
 	};
 
 	//list iterator
 	template <class T>
 	struct list_iterator : public iterator<bidirectional_iterator_tag, T>{
+		typedef list_iterator<T> iterator;
 		template <class T>
 		friend class list;
 
-		typedef list_node<T>* nodePtr;
-		nodePtr p;
+		typedef list_node<T>* link_type;
+		link_type node;
 
-		explicit list_iterator(nodePtr ptr = nullptr) :p(ptr) {}
+		explicit list_iterator(link_type ptr = nullptr) :node(ptr) {}
+		list_iterator() {}
+		list_iterator(const iterator &x) :node(x.node) {}
 
 		list_iterator& operator++();
 		list_iterator operator++(int);
 		list_iterator& operator--();
 		list_iterator operator--(int);
-		T& operator *() { return p->data; }
+		T& operator *() { return node->data; }
 		T* operator->() { return &(this->operator*()); }
 
 		template<class T>
@@ -50,6 +53,8 @@ namespace HandySTL{
 		friend struct list_iterator;
 	private:
 		typedef allocator<list_node<T>> nodeAllocator;
+		typedef list_node<T> *list_type;
+		//node指向最后一个节点的下一个节点
 		typedef list_node<T> *node;
 	public:
 		typedef T value_type;
@@ -57,12 +62,32 @@ namespace HandySTL{
 		typedef list_iterator<const T> const_iterator;
 		typedef T& reference;
 		typedef size_t size_type;
+		typedef ptrdiff_t difference_type;
+
+		typedef list_iterator<T> iterator;
 	public:
-		list();
+		list() { emptyInit(); }
 		explicit list(size_type n, const value_type& val = value_type());
 
-		iterator begin() { return }
+		iterator begin() { return (list_type)((*node).next); }
+		const iterator begin() const { return (list_type)((*node).next); }
+		iterator end() { return node; }
+		const_iterator end() const { return node; }
+
+		bool empty() const { return node->next == node; }
+		size_type size() const;
+		reference front() { return *begin(); }
+		const_reference front() const { return *begin(); }
+		reference back() { return *(--end()); }
+		const_reference back() const { return *(--end()); }
+		void swap(list<T> &x) { std::swap(node, x.node); }
+
 	private:
+		// 配置一個節點並傳回
+		link_type get_node() { return nodeAllocator::allocate(); }
+		// 釋放一個節點
+		void put_node(link_type p) { nodeAllocator::deallocate(p); }
+
 		void emptyInit();
 		node createNode(const T& val = T());
 		void destroyNode(node);

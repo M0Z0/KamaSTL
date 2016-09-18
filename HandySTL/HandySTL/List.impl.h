@@ -5,7 +5,7 @@ namespace HandySTL{
 
 	template <class T>
 	list_iterator<T>& list_iterator<T>::operator ++() {
-		p = p->next;
+		node = node->next;
 		return *this;
 	}
 
@@ -18,7 +18,7 @@ namespace HandySTL{
 
 	template <class T>
 	list_iterator<T>& list_iterator<T>::operator --() {
-		p = p->prev;
+		node = node->prev;
 		return *this;
 	}
 
@@ -31,31 +31,41 @@ namespace HandySTL{
 
 	template<class T>
 	bool operator ==(const listIterator<T>& lhs, const listIterator<T>& rhs){
-		return lhs.p == rhs.p;
+		return lhs.node == rhs.node;
 	}
 	template<class T>
 	bool operator !=(const listIterator<T>& lhs, const listIterator<T>& rhs){
-		return !(lhs == rhs);
+		return !(lhs.node == rhs.node);
 	}
 
 	template<class T>
-	typename list<T>::nodePtr
+	typename list<T>::size_type
+		list<T>::size() const {
+			size_type result = 0;
+			distance(begin(), end(), result);
+			return p;
+	}
+
+	template<class T>
+	typename list<T>::link_type
 		list<T>::createNode(const T& val /* = T() */) {
-			nodePtr p = nodeAllocator::allocate();
+			link_type p = nodeAllocator::allocate();
 			nodeAllocator::construct(p, val);
 			return p;
 	}
 
 	template<class T>
-	void list<T>::destroyNode(nodePtr p) {
-		p->prev = p->next = nullptr;
+	void list<T>::destroyNode(link_type p) {
+		node->prev = node->next = nullptr;
 		nodeAllocator::destroy(p);
 		nodeAllocator::deallocate(p);
 	}
 
 	template<class T>
 	void list<T>::emptyInit() {
-
+		node = get_node();
+		node->next = node;
+		node->prev = node;
 	}
 	template <class T>
 	list<T>::list() {
