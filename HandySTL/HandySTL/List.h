@@ -82,6 +82,15 @@ namespace HandySTL{
 		const_reference back() const { return *(--end()); }
 		void swap(list<T> &x) { std::swap(node, x.node); }
 
+		iterator insert(iterator position, const T& x);
+		inline iterator insert(iterator position) { return insert(position, T()); }
+		template<class InputIterator>
+		void insert(iterator position, InputIterator first, InputIterator last);
+		void insert(iterator position, const T* first, const T* last);
+		inline void insert(iterator pos, int n, const T& x) { insert(pos, (size_type)n, x); }
+		inline void insert(iterator pos, long n, const T& x) { insert(pos, (size_type)n, x); }
+
+
 	private:
 		// ÅäÖÃÒ»‚€¹ücK‚÷»Ø
 		link_type get_node() { return nodeAllocator::allocate(); }

@@ -76,5 +76,29 @@ namespace HandySTL{
 	void list<T>::push_back(const value_type& val) {
 		auto newNode = createNode(val);
 	}
+
+	template<class T>
+	typename list<T>::iterator
+		list<T>::insert(iterator position, const value_type& val) {
+		link_type tmp = createNode(val);
+		tmp->next = position.node;
+		tmp->prev = position.node->prev;
+		(position.node->prev)->next = tmp;
+		position.node->prev = tmp;
+		return tmp;
+	}
+
+	template<class T>
+	template<class InputIterator >
+	void list<T>::insert(iterator position, InputIterator first, InputIterator last) {
+		for (; first != last; ++first)
+			insert(position, *first);
+	}
+
+	template<class T>
+	void list<T>::insert(iterator position, const T* first, const T* last) {
+		for (; first != last; ++first)
+			insert(position, *first);
+	}
 }
 #endif
