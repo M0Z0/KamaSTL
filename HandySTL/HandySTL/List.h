@@ -67,6 +67,9 @@ namespace HandySTL{
 		typedef list_iterator<T> iterator;
 	public:
 		list() { emptyInit(); }
+		list(size_type n, const T& value) { fill_initialize(n, value); }
+		list(int n, const T& value) { fill_initialize(n, value); }
+		explicit list(size_type n)
 		explicit list(size_type n, const value_type& val = value_type());
 
 		iterator begin() { return (list_type)((*node).next); }
@@ -89,6 +92,9 @@ namespace HandySTL{
 		void insert(iterator position, const T* first, const T* last);
 		inline void insert(iterator pos, int n, const T& x) { insert(pos, (size_type)n, x); }
 		inline void insert(iterator pos, long n, const T& x) { insert(pos, (size_type)n, x); }
+		inline void push_back(const T& val) { insert(end(), val); }
+		inline void push_front(const T& val) { insert(begin(), val); }
+		iterator erase(iterator position);
 
 
 	private:
@@ -100,7 +106,12 @@ namespace HandySTL{
 		void emptyInit();
 		node createNode(const T& val = T());
 		void destroyNode(node);
+		void clear();
 		void push_back(const value_type& val);
+		void fill_initialize(size_type n, const T& value); 
+		void range_initialize(const T* first, const T* last);
+		template<class InputIterator>
+		void range_initialize(InputIterator first, InputIterator last);
 	};
 }
 #endif

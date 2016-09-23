@@ -100,5 +100,61 @@ namespace HandySTL{
 		for (; first != last; ++first)
 			insert(position, *first);
 	}
+
+	template<class T>
+	void list<T>::erase(iterator position) {
+		link_type prevNode = link_type(position.node->prev);
+		link_type nextNode = link_type(position.node->next);
+		prevNode->next = nextNode;
+		nextNode->prev = prevNode;
+		this->destroyNode(position.node);
+	}
+
+	template<class T>
+	void list<T>::clear() {
+		link_type cur = node->next; //Í·½áµã
+		while (cur != node) {
+			list_type tmp = cur;
+			cur = cur->next;
+			destroyNode(tmp);
+		}
+	}
+
+	template<class T>
+	void list<T>::fill_initialize(size_type n, const T& value) {
+		emptyInit();
+		try {
+			insert(begin(), n, value);
+		}
+		catch (...) {
+			clear();
+			put_node(node);
+		}
+	}
+
+	template<class T>
+	void list<T>::range_initialize(const T* first, const T* last) {
+		emptyInit();
+		try {
+			insert(begin(), first, last);
+		}
+		catch (...) {
+			clear();
+			put_node(node);
+		}
+	}
+
+	template<class T>
+	template <class InputIterator>
+	void list<T>::range_initialize(InputIterator first, InputIterator last) {
+		emptyInit();
+		try {
+			insert(begin(), first, last);
+		}
+		catch (...) {
+			clear();
+			put_node(node);
+		}
+	}
 }
 #endif
