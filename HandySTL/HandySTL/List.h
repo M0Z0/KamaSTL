@@ -71,6 +71,7 @@ namespace HandySTL{
 		list(int n, const T& value) { fill_initialize(n, value); }
 		explicit list(size_type n)
 		explicit list(size_type n, const value_type& val = value_type());
+		template<class Input>
 
 		iterator begin() { return (list_type)((*node).next); }
 		const iterator begin() const { return (list_type)((*node).next); }
@@ -95,7 +96,11 @@ namespace HandySTL{
 		inline void push_back(const T& val) { insert(end(), val); }
 		inline void push_front(const T& val) { insert(begin(), val); }
 		iterator erase(iterator position);
-
+		void remove(const T& value);
+		void unique();
+		void splice(iterator position, list& li);
+		void splice(iterator it, list& li, iterator first);//队列li中移走[first,end)间元素插入迭代指针it前
+		void splice(iterator it, list& li，iterator first, iterator last);//li中移走[first,last)间元素插入迭代器指针it前
 
 	private:
 		// 配置一個節點並傳回
@@ -112,6 +117,7 @@ namespace HandySTL{
 		void range_initialize(const T* first, const T* last);
 		template<class InputIterator>
 		void range_initialize(InputIterator first, InputIterator last);
+		void transfer(iterator position, iterator first, iterator last);
 	};
 }
 #endif

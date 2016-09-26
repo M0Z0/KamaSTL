@@ -156,5 +156,60 @@ namespace HandySTL{
 			put_node(node);
 		}
 	}
+
+	template<class T>
+	void list<T>::remove(const T& value) {
+		iterator first = begin();
+		iterator last = end();
+		while (first!=last)
+		{
+			iterator tmp = first;
+			++tmp;
+			if (*first == value)
+				erase(first);
+			first = tmp;
+		}
+	}
+
+	template<class T>
+	void list<T>::unique() {
+		iterator first = begin();
+		iterator last = end();
+		if (first == last) return;
+		while (first != last)
+		{
+			iterator next = first;
+			++next;
+			if (*first == next) {
+				erase(next);
+				++first;
+			}
+			else{
+				first = next;
+			}		
+		}
+	}
+
+	template<class T>
+	void list<T>::splice(iterator position, list<T>& li) {
+		if (!li.empty()) {
+			this->transfer(position, li.begin(), li.end());
+		}	
+	}
+	template<class T>
+	void list<T>::splice(iterator it, list& li, iterator first);
+
+	template<class T>
+	void list<T>::transfer(iterator position, iterator first, iterator last) {// [first, last)
+		if (position != last) {
+			(*(last.node->prev)).next = position.node;
+			(*(first.node->prev)).next = last.node;
+			(*(position.node->prev)).next = first.node;
+			list_type tmp = position.node->prev;
+			(*position.node).prev = (*last.node).prev;
+			(*last.node).prev = (*first.node).prev;
+			(*first.node).prev = tmp;
+		}
+	}
 }
 #endif
