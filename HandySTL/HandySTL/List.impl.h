@@ -197,7 +197,18 @@ namespace HandySTL{
 		}	
 	}
 	template<class T>
-	void list<T>::splice(iterator it, list& li, iterator first);
+	void list<T>::splice(iterator it, list& li, iterator first) {
+		iterator j = i;
+		++j;
+		if (position == i || position == j) return;
+		transfer(position, i, j);
+	}
+
+	template<class T>
+	void list<T>::splice(iterator position, list&, iterator first, iterator last) {
+		if (first != last)
+			transfer(position, first, last);
+	}
 
 	template<class T>
 	void list<T>::transfer(iterator position, iterator first, iterator last) {// [first, last)
@@ -209,6 +220,19 @@ namespace HandySTL{
 			(*position.node).prev = (*last.node).prev;
 			(*last.node).prev = (*first.node).prev;
 			(*first.node).prev = tmp;
+		}
+	}
+
+	template<class T>
+	void list<T>::reverse() {
+		if (node->next == node || list_type(node->next)->next == node) {//空链表？有一个节点？
+			iterator first = begin();
+			++first;
+			while (first != end()) {
+				iterator old = first;
+				++first;
+				transfer(begin(), old, first); //不确定 需要测试
+			}
 		}
 	}
 }

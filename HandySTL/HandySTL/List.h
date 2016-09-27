@@ -99,8 +99,9 @@ namespace HandySTL{
 		void remove(const T& value);
 		void unique();
 		void splice(iterator position, list& li);
-		void splice(iterator it, list& li, iterator first);//队列li中移走[first,end)间元素插入迭代指针it前
+		void splice(iterator it, list& li, iterator i);//i所指元素插入迭代指针it前
 		void splice(iterator it, list& li，iterator first, iterator last);//li中移走[first,last)间元素插入迭代器指针it前
+		void reverse();
 
 	private:
 		// 配置一個節點並傳回
