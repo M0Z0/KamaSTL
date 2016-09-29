@@ -3,7 +3,7 @@
 
 #include "Allocator.h"
 #include "Iterator.h"
-#include <list>
+//#include <list>
 #include "Type_traits.h"
 
 namespace HandySTL{
@@ -29,8 +29,9 @@ namespace HandySTL{
 		typedef list_node<T>* link_type;
 		link_type node;
 
-		explicit list_iterator(link_type ptr = nullptr) :node(ptr) {}
+	    list_iterator(link_type ptr = nullptr) :node(ptr) {}
 		list_iterator() {}
+		//list_iterator(link_type x) : node(x) {}
 		list_iterator(const iterator &x) :node(x.node) {}
 
 		list_iterator& operator++();
@@ -41,10 +42,13 @@ namespace HandySTL{
 		T* operator->() { return &(this->operator*()); }
 
 		template<class T>
-		friend bool operator ==(const listIterator<T>& lhs, const listIterator<T>& rhs);
+		friend bool operator ==(const list_iterator<T>& lhs, const list_iterator<T>& rhs);
 		template<class T>
-		friend bool operator !=(const listIterator<T>& lhs, const listIterator<T>& rhs);
+		friend bool operator !=(const list_iterator<T>& lhs, const list_iterator<T>& rhs);
+
 	};
+
+
 
 	//class of list
 	template <class T>
@@ -52,10 +56,13 @@ namespace HandySTL{
 		template<class T>
 		friend struct list_iterator;
 	private:
-		typedef allocator<list_node<T>> nodeAllocator;
-		typedef list_node<T> *list_type;
+		typedef allocator<list_node<T> > nodeAllocator;
+		typedef list_node<T> listNode;
 		//node指向最后一个节点的下一个节点
-		typedef list_node<T> *node;
+		typedef listNode *link_type;
+
+	protected:
+		link_type node;
 	public:
 		typedef T value_type;
 		typedef list_iterator<T> iterator;
@@ -64,26 +71,25 @@ namespace HandySTL{
 		typedef size_t size_type;
 		typedef ptrdiff_t difference_type;
 
-		typedef list_iterator<T> iterator;
 	public:
-		list() { emptyInit(); }
+		list();
+		~list();
 		list(size_type n, const T& value) { fill_initialize(n, value); }
 		list(int n, const T& value) { fill_initialize(n, value); }
-		explicit list(size_type n)
-		explicit list(size_type n, const value_type& val = value_type());
-		template<class Input>
+		explicit list(size_type n);
+		//explicit list(size_type n, const value_type& val = value_type());
 
-		iterator begin() { return (list_type)((*node).next); }
-		const iterator begin() const { return (list_type)((*node).next); }
-		iterator end() { return node; }
+		iterator begin() { return (link_type)(*node).next; }
+		const iterator begin() const { return (link_type)((*node).next); }
+		iterator end() { return (link_type)node; }
 		const_iterator end() const { return node; }
 
 		bool empty() const { return node->next == node; }
 		size_type size() const;
 		reference front() { return *begin(); }
-		const_reference front() const { return *begin(); }
+		//const_reference front() const { return *begin(); }
 		reference back() { return *(--end()); }
-		const_reference back() const { return *(--end()); }
+		//const_reference back() const { return *(--end()); }
 		void swap(list<T> &x) { std::swap(node, x.node); }
 
 		iterator insert(iterator position, const T& x);
@@ -95,25 +101,24 @@ namespace HandySTL{
 		inline void insert(iterator pos, long n, const T& x) { insert(pos, (size_type)n, x); }
 		inline void push_back(const T& val) { insert(end(), val); }
 		inline void push_front(const T& val) { insert(begin(), val); }
-		iterator erase(iterator position);
+		void erase(iterator position);
 		void remove(const T& value);
 		void unique();
 		void splice(iterator position, list& li);
 		void splice(iterator it, list& li, iterator i);//i所指元素插入迭代指针it前
-		void splice(iterator it, list& li，iterator first, iterator last);//li中移走[first,last)间元素插入迭代器指针it前
+		void splice(iterator it, list& li, iterator first, iterator last);//li中移走[first,last)间元素插入迭代器指针it前
 		void reverse();
 
-	private:
+	public:
 		// 配置一個節點並傳回
 		link_type get_node() { return nodeAllocator::allocate(); }
 		// 釋放一個節點
 		void put_node(link_type p) { nodeAllocator::deallocate(p); }
 
 		void emptyInit();
-		node createNode(const T& val = T());
-		void destroyNode(node);
+		link_type createNode(const T& val = T());
+		void destroyNode(link_type);
 		void clear();
-		void push_back(const value_type& val);
 		void fill_initialize(size_type n, const T& value); 
 		void range_initialize(const T* first, const T* last);
 		template<class InputIterator>
@@ -121,4 +126,6 @@ namespace HandySTL{
 		void transfer(iterator position, iterator first, iterator last);
 	};
 }
+
+#include "List.impl.h"
 #endif

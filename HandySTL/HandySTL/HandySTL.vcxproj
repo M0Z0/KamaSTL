@@ -85,6 +85,8 @@
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="List.impl.h" />
+    <ClInclude Include="listTest.h" />
+    <ClInclude Include="Mlist.h" />
     <ClInclude Include="TestUtil.h" />
     <ClInclude Include="Type_traits.h" />
     <ClInclude Include="uninitialized.h" />
@@ -93,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alloc.cpp" />
+    <ClCompile Include="listTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="vectorTest.cpp" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 #ifndef __H_LIST_IMPL__
 #define __H_LIST_IMPL__
 
+
 namespace HandySTL{
 
 	template <class T>
@@ -10,7 +11,7 @@ namespace HandySTL{
 	}
 
 	template <class T>
-	list_iterator<T>& list_iterator<T>::operator ++(int) {
+	list_iterator<T> list_iterator<T>::operator ++(int) {
 		auto res = *this;
 		++*this;
 		return res;
@@ -23,18 +24,18 @@ namespace HandySTL{
 	}
 
 	template <class T>
-	list_iterator<T>& list_iterator<T>::operator ++(int) {
+	list_iterator<T> list_iterator<T>::operator --(int) {
 		auto res = *this;
 		--*this;
 		return res;
 	}
 
 	template<class T>
-	bool operator ==(const listIterator<T>& lhs, const listIterator<T>& rhs){
+	bool operator ==(const list_iterator<T>& lhs, const list_iterator<T>& rhs){
 		return lhs.node == rhs.node;
 	}
 	template<class T>
-	bool operator !=(const listIterator<T>& lhs, const listIterator<T>& rhs){
+	bool operator !=(const list_iterator<T>& lhs, const list_iterator<T>& rhs){
 		return !(lhs.node == rhs.node);
 	}
 
@@ -67,14 +68,16 @@ namespace HandySTL{
 		node->next = node;
 		node->prev = node;
 	}
+
 	template <class T>
 	list<T>::list() {
 		emptyInit();
 	}
 
-	template<class T>
-	void list<T>::push_back(const value_type& val) {
-		auto newNode = createNode(val);
+	template <class T>
+	list<T>::~list() {
+		clear();
+		put_node(node);
 	}
 
 	template<class T>
@@ -112,10 +115,10 @@ namespace HandySTL{
 
 	template<class T>
 	void list<T>::clear() {
-		link_type cur = node->next; //头结点
+		link_type cur = (link_type)node->next; //头结点
 		while (cur != node) {
-			list_type tmp = cur;
-			cur = cur->next;
+			link_type tmp = cur;
+			cur = (link_type)cur->next;
 			destroyNode(tmp);
 		}
 	}
@@ -216,7 +219,7 @@ namespace HandySTL{
 			(*(last.node->prev)).next = position.node;
 			(*(first.node->prev)).next = last.node;
 			(*(position.node->prev)).next = first.node;
-			list_type tmp = position.node->prev;
+			link_type tmp = position.node->prev;
 			(*position.node).prev = (*last.node).prev;
 			(*last.node).prev = (*first.node).prev;
 			(*first.node).prev = tmp;
@@ -225,7 +228,7 @@ namespace HandySTL{
 
 	template<class T>
 	void list<T>::reverse() {
-		if (node->next == node || list_type(node->next)->next == node) {//空链表？有一个节点？
+		if (node->next == node || link_type(node->next)->next == node) {//空链表？有一个节点？
 			iterator first = begin();
 			++first;
 			while (first != end()) {

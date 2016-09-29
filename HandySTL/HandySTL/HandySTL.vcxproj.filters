@@ -57,6 +57,12 @@
     <ClInclude Include="List.impl.h">
       <Filter>impl</Filter>
     </ClInclude>
+    <ClInclude Include="listTest.h">
+      <Filter>test</Filter>
+    </ClInclude>
+    <ClInclude Include="Mlist.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alloc.cpp">
@@ -66,6 +72,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="vectorTest.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="listTest.cpp">
       <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
