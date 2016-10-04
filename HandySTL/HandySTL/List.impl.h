@@ -6,7 +6,7 @@ namespace HandySTL{
 
 	template <class T>
 	list_iterator<T>& list_iterator<T>::operator ++() {
-		node = node->next;
+		node = (link_type)node->next;
 		return *this;
 	}
 
@@ -50,8 +50,8 @@ namespace HandySTL{
 	template<class T>
 	typename list<T>::link_type
 		list<T>::createNode(const T& val /* = T() */) {
-			link_type p = nodeAllocator::allocate();
-			nodeAllocator::construct(p, val);
+			link_type p = get_node();
+			construct(&p->data, val);
 			return p;
 	}
 
@@ -86,7 +86,7 @@ namespace HandySTL{
 		link_type tmp = createNode(val);
 		tmp->next = position.node;
 		tmp->prev = position.node->prev;
-		(position.node->prev)->next = tmp;
+		(link_type(position.node->prev))->next = tmp;
 		position.node->prev = tmp;
 		return tmp;
 	}
@@ -105,6 +105,12 @@ namespace HandySTL{
 	}
 
 	template<class T>
+	void list<T>::insert(iterator position, size_type n, const T& x) {
+		for (; n > 0; --n)
+			insert(position, x);
+	}
+
+	template<class T>
 	void list<T>::erase(iterator position) {
 		link_type prevNode = link_type(position.node->prev);
 		link_type nextNode = link_type(position.node->next);
@@ -115,6 +121,8 @@ namespace HandySTL{
 
 	template<class T>
 	void list<T>::clear() {
+		if (cur == nullptr)
+			return;
 		link_type cur = (link_type)node->next; //Í·½áµã
 		while (cur != node) {
 			link_type tmp = cur;

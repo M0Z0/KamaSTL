@@ -16,7 +16,7 @@ namespace HandySTL{
 		T data;
 		void *prev;
 		void *next;
-		//list_node(const T &d) :data(d), prev(nullptr), next(nullptr) {}
+		list_node(const T &d) :data(d), prev(nullptr), next(nullptr) {}
 	};
 
 	//list iterator
@@ -58,10 +58,10 @@ namespace HandySTL{
 	private:
 		typedef allocator<list_node<T> > nodeAllocator;
 		typedef list_node<T> listNode;
-		//node指向最后一个节点的下一个节点
 		typedef listNode *link_type;
 
 	protected:
+		//node指向最后一个节点的下一个节点
 		link_type node;
 	public:
 		typedef T value_type;
@@ -77,6 +77,15 @@ namespace HandySTL{
 		list(size_type n, const T& value) { fill_initialize(n, value); }
 		list(int n, const T& value) { fill_initialize(n, value); }
 		explicit list(size_type n);
+		list(const T* first, const T* last) { range_initialize(first, last); }
+		template <class InputIterator>
+		list(InputIterator first, InputIterator last) {
+			range_initialize(first, last);
+		}
+		//list(const list<T>& x) {
+		//	range_initialize(x.begin(), x.end());
+		//}
+
 		//explicit list(size_type n, const value_type& val = value_type());
 
 		iterator begin() { return (link_type)(*node).next; }
@@ -99,6 +108,7 @@ namespace HandySTL{
 		void insert(iterator position, const T* first, const T* last);
 		inline void insert(iterator pos, int n, const T& x) { insert(pos, (size_type)n, x); }
 		inline void insert(iterator pos, long n, const T& x) { insert(pos, (size_type)n, x); }
+		void insert(iterator pos, size_type n, const T& x);
 		inline void push_back(const T& val) { insert(end(), val); }
 		inline void push_front(const T& val) { insert(begin(), val); }
 		void erase(iterator position);

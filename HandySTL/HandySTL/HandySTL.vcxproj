@@ -81,6 +81,7 @@
     <ClInclude Include="Alloc.h" />
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="Construct.h" />
+    <ClInclude Include="Deque.h" />
     <ClInclude Include="impl\Vector.impl.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="List.h" />
