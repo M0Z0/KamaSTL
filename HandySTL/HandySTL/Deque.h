@@ -3,61 +3,60 @@
 
 #include "Allocator.h"
 #include "Iterator.h"
-#include "ReverseIterator.h"
 
 
-namespace TinySTL{
-	template<class T, class Alloc = allocator<T>>
-	class deque;
-	namespace Detail{
-		//class of deque iterator
-		template<class T>
-		class dq_iter :public iterator<bidirectional_iterator_tag, T>{
-		private:
-			template<class T, class Alloc>
-			friend class ::TinySTL::deque;
-		private:
-			//typedef TinySTL::deque<T>* cntrPtr;
-			typedef const ::TinySTL::deque<T>* cntrPtr;
-			size_t mapIndex_;
-			T *cur_;
-			cntrPtr container_;
-		public:
-			dq_iter() :mapIndex_(-1), cur_(0), container_(0){}
-			dq_iter(size_t index, T *ptr, cntrPtr container)
-				:mapIndex_(index), cur_(ptr), container_(container){}
-			dq_iter(const dq_iter& it)
-				:mapIndex_(it.mapIndex_), cur_(it.cur_), container_(it.container_){}
-			dq_iter& operator = (const dq_iter& it);
-			void swap(dq_iter& it);
-			reference operator *(){ return *cur_; }
-			const reference operator *()const{ return *cur_; }
-			pointer operator ->(){ return &(operator*()); }
-			const pointer operator ->()const{ return &(operator*()); }
-			dq_iter& operator ++();
-			dq_iter operator ++(int);
-			dq_iter& operator --();
-			dq_iter operator --(int);
-			bool operator ==(const dq_iter& it)const;
-			bool operator !=(const dq_iter& it)const;
-		private:
-			T *getBuckTail(size_t mapIndex)const;
-			T *getBuckHead(size_t mapIndex)const;
-			size_t getBuckSize()const;
-		public:
-			template<class T>
-			friend dq_iter<T> operator + (const dq_iter<T>& it, typename dq_iter<T>::difference_type n);
-			template<class T>
-			friend dq_iter<T> operator + (typename dq_iter<T>::difference_type n, const dq_iter<T>& it);
-			template<class T>
-			friend dq_iter<T> operator - (const dq_iter<T>& it, typename dq_iter<T>::difference_type n);
-			template<class T>
-			friend dq_iter<T> operator - (typename dq_iter<T>::difference_type n, const dq_iter<T>& it);
-			template<class T>
-			friend typename dq_iter<T>::difference_type operator - (const dq_iter<T>& it1, const dq_iter<T>& it2);
-			template<class T>
-			friend void swap(dq_iter<T>& lhs, dq_iter<T>& rhs);
-		};
-	}// end of Detail namespace
+namespace HandySTL{
+
+	inline size_t _deque_buf_size(size_t n, size_t sz) {
+		return n != 0 ? n : (sz < 512 ? size_t(512 / sz) : size_t(1));
+	}
+
+	template<class T, class Ref, class Ptr, size_t BufSize>
+	struct _deque_iterator {
+
+		typedef _deque_iterator<T, T&, T*, BufSize> iterator;
+		typedef _deque_iterator<T, const T&, const T*, BufSize> const_iterator;
+		static size_t buffer_size() { return _deque_buf_size(BufSize, sizeof(T)); }
+
+		typedef random_access_iterator_tag iterator_category;
+		typedef T value_type;
+		typedef Ptr pointer;
+		typedef Ref reference;
+		typedef size_t size_type;
+		typedef ptrdiff_t difference_type;
+		typedef T** map_pointer;
+
+		typedef _deque_iterator self;
+
+		T* cur;
+		T* first;
+		T* last;
+		map_pointer node;
+
+		void set_node(map_pointer newNode) {
+			node = newNode;
+			first = *newNode;
+			last = difference_type(buffer_size());
+		}
+
+		reference operator*() const { return *cur; }
+		pointer operator->() const { return &(operator*()); }
+
+		self& operator++() {
+			++cur;
+			if (cur == last) {
+				set_node(node + 1);
+				cur = first;
+			}
+		}
+
+		self operator++(int) {
+			self tmp = *this;
+			++*this;
+			return tmp;
+		}
+	};
+	
+}// end of HandySTL namespace
 
 #endif
