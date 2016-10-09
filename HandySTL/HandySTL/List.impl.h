@@ -121,9 +121,10 @@ namespace HandySTL{
 
 	template<class T>
 	void list<T>::clear() {
+
+		link_type cur = (link_type)node->next; //头结点
 		if (cur == nullptr)
 			return;
-		link_type cur = (link_type)node->next; //头结点
 		while (cur != node) {
 			link_type tmp = cur;
 			cur = (link_type)cur->next;

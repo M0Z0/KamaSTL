@@ -82,6 +82,8 @@
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="Construct.h" />
     <ClInclude Include="Deque.h" />
+    <ClInclude Include="Deque.impl.h" />
+    <ClInclude Include="dequeTest.h" />
     <ClInclude Include="impl\Vector.impl.h" />
     <ClInclude Include="Iterator.h" />
     <ClInclude Include="List.h" />
@@ -96,6 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alloc.cpp" />
+    <ClCompile Include="dequeTest.cpp" />
     <ClCompile Include="listTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="vectorTest.cpp" />

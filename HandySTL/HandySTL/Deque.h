@@ -35,9 +35,10 @@ namespace HandySTL{
 		map_pointer node;
 
 		//构造、拷贝构造...
-		inline iterator(T* x, map_pointer y) :cur(x), first(*y), last(*y + buffer_size()), node(y) {}
-		inline iterator() : cur(nullptr), first(nullptr), last(nullptr), node(nullptr) {}
-		inline iterator(const iterator& x) : cur(x.cur), first(x.first), last(x.last), node(x.node) {}
+		
+		_deque_iterator(T* x, map_pointer y) :cur(x), first(*y), last(*y + buffer_size()), node(y) {}
+		_deque_iterator() : cur(nullptr), first(nullptr), last(nullptr), node(nullptr) {}
+		inline _deque_iterator(const iterator& x) : cur(x.cur), first(x.first), last(x.last), node(x.node) {}
 
 		void set_node(map_pointer newNode) {
 			node = newNode;
@@ -136,6 +137,8 @@ namespace HandySTL{
 
 		map_pointer map;
 
+		size_type map_size;
+
 		typedef allocator<T> dataAllocator;
 
 		static size_type buffer_size() {
@@ -143,6 +146,12 @@ namespace HandySTL{
 		}
 
 		static size_type initial_map_size() { return MAPSIZE; }
+		pointer allocate_node() { return dataAllocator::allocate(buffer_size()); }
+		void deallocate_node(pointer n) {
+			dataAllocator::deallocate(n, buffer_size());
+		}
+
+		void create_map_and_nodes(size_type num_elements);
 
 	public:
 		inline iterator begin() { return start; }
@@ -153,6 +162,13 @@ namespace HandySTL{
 
 		reference front() { return *start; }
 		reference back() { return*(finish - 1); }
+
+		size_type size() const { return finish - start; }
+
+	public:
+		deque() :start(), finish(), map(nullptr), map_size(0) {
+			create_map_and_nodes(0);
+		}
 	};
 }// end of HandySTL namespace
 

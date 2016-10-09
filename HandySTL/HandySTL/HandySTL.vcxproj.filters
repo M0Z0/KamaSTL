@@ -63,6 +63,15 @@
     <ClInclude Include="Mlist.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Deque.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Deque.impl.h">
+      <Filter>impl</Filter>
+    </ClInclude>
+    <ClInclude Include="dequeTest.h">
+      <Filter>test</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alloc.cpp">
@@ -75,6 +84,9 @@
       <Filter>test</Filter>
     </ClCompile>
     <ClCompile Include="listTest.cpp">
+      <Filter>test</Filter>
+    </ClCompile>
+    <ClCompile Include="dequeTest.cpp">
       <Filter>test</Filter>
     </ClCompile>
   </ItemGroup>
