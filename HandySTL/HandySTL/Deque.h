@@ -4,6 +4,8 @@
 #include "Allocator.h"
 #include "Iterator.h"
 
+#define max(a, b)    (((a) > (b)) ? (a) : (b))
+#define min(a,b)    (((a) < (b)) ? (a) : (b))
 const size_t MAPSIZE = 8;
 
 namespace HandySTL{
@@ -43,7 +45,7 @@ namespace HandySTL{
 		void set_node(map_pointer newNode) {
 			node = newNode;
 			first = *newNode;
-			last = difference_type(buffer_size());
+			last = first+difference_type(buffer_size());
 		}
 
 		reference operator*() const { return *cur; }
@@ -140,6 +142,7 @@ namespace HandySTL{
 		size_type map_size;
 
 		typedef allocator<T> dataAllocator;
+		typedef allocator<T*> mapAllocator;
 
 		static size_type buffer_size() {
 			return _deque_buf_size(BuffSize, sizeof(value_type));
@@ -152,6 +155,7 @@ namespace HandySTL{
 		}
 
 		void create_map_and_nodes(size_type num_elements);
+		map_pointer create_buffer(const size_t size);
 
 	public:
 		inline iterator begin() { return start; }
@@ -169,6 +173,12 @@ namespace HandySTL{
 		deque() :start(), finish(), map(nullptr), map_size(0) {
 			create_map_and_nodes(0);
 		}
+		explicit deque(size_type n, const value_type& val = value_type());
+		template <class InputIterator>
+		deque(InputIterator first, InputIterator last);
+		deque(const deque& x);
+
+		~deque();
 	};
 }// end of HandySTL namespace
 

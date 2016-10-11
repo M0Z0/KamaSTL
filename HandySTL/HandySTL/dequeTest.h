@@ -13,15 +13,17 @@
 #include <string>
 namespace HandySTL{
 
-	template<class T>
-	using stdDe = std::deque < T >;
+	namespace TestDeque{
+		template<class T>
+		using stdDe = std::deque < T >;
 
-	template<class T>
-	using tsDe = HandySTL::deque < T >;
+		template<class T>
+		using tsDe = HandySTL::deque < T >;
 
-	void testCase1();
+		void testCase1();
 
-	void testAllCases();
+		void testAllCases();
+	}
 
 }
 #endif

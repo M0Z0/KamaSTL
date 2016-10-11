@@ -2,7 +2,7 @@
 
 namespace HandySTL{
 
-	namespace TestList {
+	namespace TestDeque {
 
 		void testCase1() {
 			stdDe<int> d1();
