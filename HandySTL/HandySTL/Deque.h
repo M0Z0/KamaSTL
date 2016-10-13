@@ -144,6 +144,8 @@ namespace HandySTL{
 		typedef allocator<T> dataAllocator;
 		typedef allocator<T*> mapAllocator;
 
+		//enum class EBucksSize{ BUFSIZE = 64 };
+
 		static size_type buffer_size() {
 			return _deque_buf_size(BuffSize, sizeof(value_type));
 		}
@@ -155,7 +157,12 @@ namespace HandySTL{
 		}
 
 		void create_map_and_nodes(size_type num_elements);
+		void destroy_map_and_nodes();
 		map_pointer create_buffer(const size_t size);
+		void reallocate_map(size_type nodes_to_add, bool add_at_front);
+		void reserve_map_at_back(size_type node_added = 1);
+		void reserve_map_at_front(size_type node_added = 1);
+		void fill_initialize(size_type n, const value_type& val);
 
 	public:
 		inline iterator begin() { return start; }
@@ -168,17 +175,18 @@ namespace HandySTL{
 		reference back() { return*(finish - 1); }
 
 		size_type size() const { return finish - start; }
+		bool empty() { return begin() == end(); }
+
+		void push_back(const value_type& val);
 
 	public:
-		deque() :start(), finish(), map(nullptr), map_size(0) {
-			create_map_and_nodes(0);
-		}
+		inline deque() :start(), finish(), map(nullptr), map_size(0) { create_map_and_nodes(0); }
 		explicit deque(size_type n, const value_type& val = value_type());
-		template <class InputIterator>
-		deque(InputIterator first, InputIterator last);
-		deque(const deque& x);
+		//template <class InputIterator>
+		//deque(InputIterator first, InputIterator last);
+		//deque(const deque& x);
 
-		~deque();
+		//~deque();
 	};
 }// end of HandySTL namespace
 
