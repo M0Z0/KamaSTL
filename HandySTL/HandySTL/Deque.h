@@ -163,6 +163,10 @@ namespace HandySTL{
 		void reserve_map_at_back(size_type node_added = 1);
 		void reserve_map_at_front(size_type node_added = 1);
 		void fill_initialize(size_type n, const value_type& val);
+		void push_back_aux(const value_type& val);
+		void push_front_aux(const value_type& val);
+		void pop_back_aux();
+		void pop_front_aux();
 
 	public:
 		inline iterator begin() { return start; }
@@ -178,6 +182,9 @@ namespace HandySTL{
 		bool empty() { return begin() == end(); }
 
 		void push_back(const value_type& val);
+		void push_front(const value_type& val);
+		void pop_back();
+		void pop_front();
 
 	public:
 		inline deque() :start(), finish(), map(nullptr), map_size(0) { create_map_and_nodes(0); }

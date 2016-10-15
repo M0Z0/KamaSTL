@@ -109,8 +109,78 @@ namespace HandySTL{
 			++finish.cur;
 		}
 		else{
-			// TODO:push_back_aux();
+			push_back_aux(val);
 		}
+	}
+
+	template<class	T, size_t BufSize>
+	void deque<T, BufSize>::push_front(const value_type& val) {
+		if (start.first != start.cur) {
+			construct(finish.cur, val);
+			--start.cur;
+		}
+		else{
+			push_front_aux(val);
+		}
+	}
+
+	template<class	T, size_t BufSize>
+	void deque<T, BufSize>::pop_back() {
+		if (finish.cur != finish.first){
+			destroy(finish.cur, val);
+			--finish.cur;
+		}
+		else{
+			//pop_back_aux(val);
+		}
+	}
+
+	template<class T, size_t BufSize>
+	void deque<T, BufSize>::push_back_aux(const value_type& val) {
+		value_type val_copy = val;
+		reserve_map_at_back();
+		*(finish.node + 1) = allocate_node();
+		try {
+			construct(finish.cur, val_copy);
+			finish.set_node(finish.node + 1);
+			finish.cur = finish.first;
+		}
+		catch (...) {
+			deallocate_node(*(finish.node + 1));
+		}		
+	}
+
+	template<class T, size_t BufSize>
+	void deque<T, BufSize>::push_front_aux(const value_type& val) {
+		value_type val_copy = val;
+		reserve_map_at_back();
+		*(start.node - 1) = allocate_node();
+		try {
+			start.set_node(start.node - 1);
+			start.cur = start.last - 1;
+			construct(start.cur, val_copy);
+		}
+		catch (...) {
+			start.set_node(start.node + 1);
+			start.cur = start.first;
+			deallocate_node(*(start.node - 1));
+		}
+	}
+
+	template<class T, size_t BufSize>
+	void deque<T, BufSize>::pop_back_aux() {
+		deallocate_node(finish.first);
+		finish.set_node(finish.first - 1);
+		finish.cur = finish.last - 1;
+		destroy(finish.cur);
+	}
+
+	template<class T, size_t BufSize>
+	void deque<T, BufSize>::pop_front_aux() {
+		deallocate_node(finish.first);
+		finish.set_node(finish.first - 1);
+		finish.cur = finish.last - 1;
+		destroy(finish.cur);
 	}
 
 	template<class	T, size_t BufSize>
