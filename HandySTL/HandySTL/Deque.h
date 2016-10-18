@@ -180,11 +180,15 @@ namespace HandySTL{
 
 		size_type size() const { return finish - start; }
 		bool empty() { return begin() == end(); }
+		size_type size() const { return finish - start; }
 
 		void push_back(const value_type& val);
 		void push_front(const value_type& val);
 		void pop_back();
 		void pop_front();
+
+		void clear();
+		iterator erase(iterator pos);
 
 	public:
 		inline deque() :start(), finish(), map(nullptr), map_size(0) { create_map_and_nodes(0); }

@@ -131,7 +131,18 @@ namespace HandySTL{
 			--finish.cur;
 		}
 		else{
-			//pop_back_aux(val);
+			pop_back_aux(val);
+		}
+	}
+
+	template<class	T, size_t BufSize>
+	void deque<T, BufSize>::pop_front() {
+		if (start.cur != start.last-1){
+			destroy(finish.cur, val);
+			++start.cur;
+		}
+		else{
+			pop_front_aux(val);
 		}
 	}
 
@@ -177,10 +188,10 @@ namespace HandySTL{
 
 	template<class T, size_t BufSize>
 	void deque<T, BufSize>::pop_front_aux() {
-		deallocate_node(finish.first);
-		finish.set_node(finish.first - 1);
-		finish.cur = finish.last - 1;
-		destroy(finish.cur);
+		destroy(start.cur);
+		deallocate_node(start.first);
+		start.set_node(start.node + 1);
+		start.cur = start.first;
 	}
 
 	template<class	T, size_t BufSize>
@@ -189,6 +200,39 @@ namespace HandySTL{
 			deallocate_node(*cur);
 		mapAllocator::deallocate(map, map_size);
 
+	}
+
+	template<class	T, size_t BufSize>
+	void deque<T, BufSize>::clear() {
+		for (map_pointer node = start.node + 1, p < finish.node; ++p) {
+			destroy(*node, *node+buffer_size());
+			mapAllocator::deallocate(*node, buffer_size());
+		}
+		if (start.node != last.node) {
+			destroy(start.cur, start.last);
+			destroy(finish.cur, finish.last);
+			mapAllocator::deallocate(finish.first, buffer_size());
+		}
+		else{
+			destroy(start.cur, finish.cur);
+			finish = start;
+		}
+	}
+
+	template<class	T, size_t BufSize>
+	iterator erase(iterator pos) {
+		iterator next = pos;
+		++next;
+		difference_type index = pos - start;
+		if (index<(size()>>1)) {
+			copy_backward(start, pos, next);
+			pop_front();
+		}
+		else{
+			copy(next, finish, pos);
+			pop_back();
+		}
+		return start + index;
 	}
 }//end of namespace
 #endif
