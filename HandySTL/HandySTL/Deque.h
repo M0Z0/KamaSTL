@@ -167,6 +167,15 @@ namespace HandySTL{
 		void push_front_aux(const value_type& val);
 		void pop_back_aux();
 		void pop_front_aux();
+		iterator insert_aux(iterator pos, const value_type& val);
+		template <class InputIterator>
+		void range_initialize(InputIterator first, InputIterator last,
+			input_iterator_tag);
+
+		template <class ForwardIterator>
+		void range_initialize(ForwardIterator first, ForwardIterator last,
+			forward_iterator_tag);
+
 
 	public:
 		inline iterator begin() { return start; }
@@ -180,7 +189,6 @@ namespace HandySTL{
 
 		size_type size() const { return finish - start; }
 		bool empty() { return begin() == end(); }
-		size_type size() const { return finish - start; }
 
 		void push_back(const value_type& val);
 		void push_front(const value_type& val);
@@ -189,6 +197,8 @@ namespace HandySTL{
 
 		void clear();
 		iterator erase(iterator pos);
+		iterator erase(iterator first, iterator last);
+		iterator insert(iterator position, const value_type& val);
 
 	public:
 		inline deque() :start(), finish(), map(nullptr), map_size(0) { create_map_and_nodes(0); }

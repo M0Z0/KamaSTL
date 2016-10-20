@@ -63,15 +63,17 @@ namespace HandySTL{
 	}
 
 	template<class	T, size_t BufSize>
-	deque<T, BufSize>::deque(size_type n, const value_type& val) {
+	deque<T, BufSize>::deque(size_type n, const value_type& val)
+		: start(), finish(), map(0), map_size(0) {
 		fill_initialize(n, val);
 	}
 
-	//template<class	T, size_t BufSize>
-	//template <class InputIterator>
-	//deque<T, BufSize>::deque(InputIterator first, InputIterator last) {
-
-	//}
+	template<class	T, size_t BufSize>
+	template <class InputIterator>
+	deque<T, BufSize>::deque(InputIterator first, InputIterator last) 
+		: start(), finish(), map(0), map_size(0) {
+		range_initialize(first, last, iterator_category(first));
+	}
 
 	template<class	T, size_t BufSize>
 	void deque<T, BufSize>::create_map_and_nodes(size_type num_elements) {
@@ -116,7 +118,7 @@ namespace HandySTL{
 	template<class	T, size_t BufSize>
 	void deque<T, BufSize>::push_front(const value_type& val) {
 		if (start.first != start.cur) {
-			construct(finish.cur, val);
+			construct(start.cur-1, val);
 			--start.cur;
 		}
 		else{
@@ -220,12 +222,13 @@ namespace HandySTL{
 	}
 
 	template<class	T, size_t BufSize>
-	iterator erase(iterator pos) {
+	typename deque<T, BufSize>::iterator 
+		deque<T, BufSize>::erase(iterator pos) {
 		iterator next = pos;
 		++next;
 		difference_type index = pos - start;
 		if (index<(size()>>1)) {
-			copy_backward(start, pos, next);
+			std::copy_backward(start, pos, next);
 			pop_front();
 		}
 		else{
@@ -233,6 +236,102 @@ namespace HandySTL{
 			pop_back();
 		}
 		return start + index;
+	}
+
+	template<class	T, size_t BufSize>
+	typename deque<T, BufSize>::iterator
+		deque<T, BufSize>::erase(iterator first, iterator last) {
+			if (first == start && last == finish) {
+				clear();
+				return finish;
+			}
+			else{
+				difference_type dst = last - first;
+				difference_type ele_before = first - start;
+				if (ele_before < (size() - dst) / 2) {
+					std::copy_backward(start, first, last);
+					iterator new_start = start + dst;
+					destroy(start, new_start);
+					for (map_pointer p = start.node; p < new_start.node; ++p)
+						dataAllocator::deallocate(*p, buffer_size());
+					start = new_start;
+				}
+				else{
+					std::copy(last, finish, first);
+					iterator new_finish = finish - dst;
+					destroy(new_finish, finish);
+					for (map_pointer p = new_finish.node+1; p <= finish.node; ++p)
+						dataAllocator::deallocate(*p, buffer_size());
+					finish = new_finish;
+				}
+				return start + ele_before;
+			}
+		}
+	template<class	T, size_t BufSize>
+	typename deque<T, BufSize>::iterator
+		deque<T, BufSize>::insert(iterator pos, const value_type& val) {
+			if (pos.cur == start.cur) {
+				push_front(val);
+				return start;
+			}
+			else if (pos.cur == finish.cur) {
+				push_back(val);
+				iterator tmp = finish;
+				--tmp;
+				return tmp;
+			}
+			else{
+				insert_aux(pos, val);
+			}
+		}
+
+	template<class	T, size_t BufSize>
+	typename deque<T, BufSize>::iterator
+		deque<T, BufSize>::insert_aux(iterator pos, const value_type& val) {
+			difference_type index = pos - start;
+			value_type val_copy = val;
+			if (index<(size()/2)) {
+				push_front(front()); 
+				iterator front1 = start;
+				++front1;
+				iterator front2 = front1;
+				++front2;
+				pos = start + index;
+				iterator pos1 = pos;
+				++pos1;
+				std::copy(front2, pos1, front1);
+			}
+			else{
+				push_back(back()); 
+				iterator back1 = finish;
+				--back1;
+				iterator back2 = back1;
+				--back2;
+				pos = start + index;
+				std::copy_backward(pos, back2, back1);
+			}
+			*pos = val; //在插入点设定新值
+			return pos;
+		}
+
+	template<class	T, size_t BufSize>
+	template <class InputIterator>
+	void deque<T, BufSize>::range_initialize(InputIterator first, InputIterator last,
+		input_iterator_tag) {
+		create_map_and_nodes(0);
+		for (; first != last; ++first) 
+			push_back(*first);
+	}
+
+	template<class	T, size_t BufSize>
+	template <class ForwardIterator>
+	void deque<T, BufSize>::range_initialize(ForwardIterator first, ForwardIterator last,
+		forward_iterator_tag) {
+		size_type n = 0;
+		distance(first, last, n);
+		create_map_and_nodes(n);
+		uninitialized_copy(first, last, start);
+
 	}
 }//end of namespace
 #endif
