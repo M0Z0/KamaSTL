@@ -10,8 +10,8 @@ namespace HandySTL{
 			tsDe<int> td1;
 
 			tsDe<int> dq2(10, 0);
-			int i = dq2.size();
-			assert(dq2.size() == 10);
+			//int i = dq2.size();
+			//assert(dq2.size() == 10);
 		}
 
 		void testAllCases() {

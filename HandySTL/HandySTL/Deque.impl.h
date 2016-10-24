@@ -1,7 +1,9 @@
 #ifndef __H_DEQUE_IMPL__
 #define __H_DEQUE_IMPL__
+#include "Iterator.h"
 #include "uninitialized.h"
 #include <stdlib.h>
+
 namespace HandySTL{
 
 	template<class	T, size_t BufSize>
@@ -63,16 +65,10 @@ namespace HandySTL{
 	}
 
 	template<class	T, size_t BufSize>
-	deque<T, BufSize>::deque(size_type n, const value_type& val)
-		: start(), finish(), map(0), map_size(0) {
-		fill_initialize(n, val);
-	}
-
-	template<class	T, size_t BufSize>
 	template <class InputIterator>
 	deque<T, BufSize>::deque(InputIterator first, InputIterator last) 
 		: start(), finish(), map(0), map_size(0) {
-		range_initialize(first, last, iterator_category(first));
+		range_initialize(first, last, iterator_category(last));
 	}
 
 	template<class	T, size_t BufSize>

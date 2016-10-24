@@ -57,6 +57,7 @@ namespace HandySTL{
 				set_node(node + 1);
 				cur = first;
 			}
+			return *this;
 		}
 
 		self operator++(int) {
@@ -71,6 +72,7 @@ namespace HandySTL{
 				set_node(node - 1);
 				cur = first;
 			}
+			return *this;
 		}
 
 		self operator--(int) {
@@ -201,13 +203,25 @@ namespace HandySTL{
 		iterator insert(iterator position, const value_type& val);
 
 	public:
-		inline deque() :start(), finish(), map(nullptr), map_size(0) { create_map_and_nodes(0); }
-		explicit deque(size_type n, const value_type& val = value_type());
-		//template <class InputIterator>
-		//deque(InputIterator first, InputIterator last);
-		//deque(const deque& x);
-
-		//~deque();
+		inline deque() 
+			:start(), finish(), map(nullptr), map_size(0) { create_map_and_nodes(0); }
+		deque(size_type n, const value_type& value)
+			: start(), finish(), map(0), map_size(0) { fill_initialize(n, value); }
+		deque(int n, const value_type& value)
+			: start(), finish(), map(0), map_size(0){ fill_initialize(n, value); }
+		deque(long n, const value_type& value)
+			: start(), finish(), map(0), map_size(0) { fill_initialize(n, value); }
+		explicit deque(size_type n)
+			: start(), finish(), map(0), map_size(0) { fill_initialize(n, value_type()); }
+		template <class InputIterator>
+		explicit deque(InputIterator first, InputIterator last);
+		deque(const deque& x)
+			: start(), finish(), map(0), map_size(0)
+		{
+			create_map_and_nodes(x.size());
+			uninitialized_copy(x.begin(), x.end(), start);
+		}
+		~deque() { destroy(start, finish); destroy_map_and_nodes(); }
 	};
 }// end of HandySTL namespace
 
