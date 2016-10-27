@@ -116,6 +116,23 @@ namespace HandySTL{
 
 	};//end of iterator
 	
+	//template <class T, class Ref, class Ptr, size_t BufSiz>
+	//inline random_access_iterator_tag
+	//	iterator_category(const _deque_iterator<T, Ref, Ptr, BufSiz>&) {
+	//		return random_access_iterator_tag();
+	//	}
+
+	//template <class T, class Ref, class Ptr, size_t BufSiz>
+	//inline T* value_type(const _deque_iterator<T, Ref, Ptr, BufSiz>&) {
+	//	return 0;
+	//}
+
+	//template <class T, class Ref, class Ptr, size_t BufSiz>
+	//inline ptrdiff_t* distance_type(const _deque_iterator<T, Ref, Ptr, BufSiz>&) {
+	//	return 0;
+	//}
+
+
 	template<class T, size_t BuffSize=0>
 	class deque {
 
@@ -182,6 +199,9 @@ namespace HandySTL{
 	public:
 		inline iterator begin() { return start; }
 		inline iterator end() { return finish; }
+		const iterator begin() const { return start; }
+		const iterator end() const { return finish; }
+
 		reference operator[](size_type n) {
 			return start[difference_type(n)];
 		}
