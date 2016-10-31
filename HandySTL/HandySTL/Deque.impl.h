@@ -72,6 +72,21 @@ namespace HandySTL{
 	}
 
 	template<class	T, size_t BufSize>
+	deque<T, BufSize>::deque(const deque& x) {
+		this->map_size = x.map_size;
+		this->map = mapAllocator::allocate(map_size);
+		for (int i = 0; i + x.start != map_size; ++i)
+			for (int j = 0; j != buffer_size(); ++j)
+				map[x.start + i][j] = x.map[x.start + i][j];
+			//start.mapIndex_ = x.beg_.mapIndex_;
+			//end_.mapIndex_ = x.end_.mapIndex_;
+			//beg_.cur_ = map_[beg_.mapIndex_] + (x.beg_.cur_ - x.map_[x.beg_.mapIndex_]);
+			//end_.cur_ = map_[end_.mapIndex_] + (x.end_.cur_ - x.map_[x.end_.mapIndex_]);
+
+		
+	}
+
+	template<class	T, size_t BufSize>
 	void deque<T, BufSize>::create_map_and_nodes(size_type num_elements) {
 		//节点数=元素个数/每个缓冲区可容纳节点数+1
 		size_type node_num = num_elements / buffer_size() + 1;
@@ -326,7 +341,7 @@ namespace HandySTL{
 		size_type n = 0;
 		distance(first, last, n);
 		create_map_and_nodes(n);
-		uninitialized_copy(first, last, start);
+		//uninitialized_copy(first, last, start); //todo
 
 	}
 }//end of namespace

@@ -235,12 +235,7 @@ namespace HandySTL{
 			: start(), finish(), map(0), map_size(0) { fill_initialize(n, value_type()); }
 		template <class InputIterator>
 		explicit deque(InputIterator first, InputIterator last);
-		deque(const deque& x)
-			: start(), finish(), map(0), map_size(0)
-		{
-			create_map_and_nodes(x.size());
-			uninitialized_copy(x.begin(), x.end(), start);
-		}
+		deque(const deque& x);
 		~deque() { destroy(start, finish); destroy_map_and_nodes(); }
 	};
 }// end of HandySTL namespace
