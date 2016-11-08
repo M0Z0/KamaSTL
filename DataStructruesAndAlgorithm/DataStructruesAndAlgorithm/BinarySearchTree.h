@@ -14,6 +14,7 @@ namespace DSA{
 		bool contains(const type &ele);
 		BinaryNode* findMin(BinaryNode *t) const;
 		BinaryNode* findMax(BinaryNode *t) const;
+		void insert(const type &ele);
 	private:
 		struct BinaryNode 
 		{
@@ -26,6 +27,7 @@ namespace DSA{
 		BinaryNode *root;
 
 		bool contains(const type &ele, BinaryNode *t);
+		void insert(const type &ele, BinaryNode *t);
 	};//End of class
 }
 

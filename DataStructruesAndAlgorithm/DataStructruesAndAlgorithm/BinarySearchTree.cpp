@@ -40,4 +40,23 @@ namespace DSA{
 			while (NULL != t->right) t = t->right;
 			return t;
 	}
+
+	template<class type>
+	void BinarySearchTree<type>::insert(const type &ele, BinaryNode *t)
+	{
+		if (NULL == t)
+			t = new BinaryNode(ele, nullptr, nullptr);
+		else if (ele < t->elements)
+			insert(ele, t->left);
+		else if (ele > t->elements)
+			insert(ele, t->right);
+		else
+			;
+	}
+	template<class type>
+	void BinarySearchTree<type>::insert(const type &ele)
+	{
+		insert(ele, root);
+	}
+
 }
