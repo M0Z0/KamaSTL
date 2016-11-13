@@ -79,9 +79,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BinarySearchTree.h" />
+    <ClInclude Include="BinarySearchTree.impl.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BinarySearchTree.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

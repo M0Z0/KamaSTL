@@ -1,4 +1,5 @@
 #include "BinarySearchTree.h"
+#include <iostream>
 
 namespace DSA{
 
@@ -22,29 +23,29 @@ namespace DSA{
 	}
 
 	template<class type>
-	typename BinarySearchTree<type>::BinaryNode* 
+	typename BinarySearchTree<type>::BinaryNode*
 		BinarySearchTree<type>::findMin(BinaryNode *t) const //µÝ¹é
 	{
-		if (NULL == t)
-			return NULL;
-		if (NULL == t->left)
-			return t;
-		return findMin(t->left);
-	}
+			if (NULL == t)
+				return NULL;
+			if (NULL == t->left)
+				return t;
+			return findMin(t->left);
+		}
 
 	template<class type>
 	typename BinarySearchTree<type>::BinaryNode*
 		BinarySearchTree<type>::findMax(BinaryNode *t) const //·ÇµÝ¹é
 	{
-			if (NULL != t)
-			while (NULL != t->right) t = t->right;
+			if (nullptr != t)
+			while (nullptr != t->right) t = t->right;
 			return t;
-	}
+		}
 
 	template<class type>
-	void BinarySearchTree<type>::insert(const type &ele, BinaryNode *t)
+	void BinarySearchTree<type>::insert(const type &ele, BinaryNode *&t)
 	{
-		if (NULL == t)
+		if (nullptr == t)
 			t = new BinaryNode(ele, nullptr, nullptr);
 		else if (ele < t->elements)
 			insert(ele, t->left);
@@ -81,7 +82,7 @@ namespace DSA{
 			BinaryNode *oldNode = t;
 			t = (t->left != NULL) ? t->left : t->right;
 			delete oldNode;
-		}	
+		}
 	}
 
 	template<class type>
@@ -89,4 +90,61 @@ namespace DSA{
 	{
 		remove(ele, root);
 	}
+
+	template<class type>
+	void BinarySearchTree<type>::makeEmpty(BinaryNode* t)
+	{
+		if (NULL != t)
+		{
+			makeEmpty(t->left);
+			makeEmpty(t->right);
+			delete t;
+		}
+		t = NULL;
+	}
+
+	template<class type>
+	BinarySearchTree<type>::~BinarySearchTree()
+	{
+		makeEmpty(root);
+	}
+
+	template<class type>
+	typename BinarySearchTree<type>::BinaryNode*
+		BinarySearchTree<type>::clone(BinaryNode* t) const
+	{
+			if (NULL == t)
+				return NULL;
+
+			return new BinarySearchTree(t->elements, clone(t->left), clone(t->right));
+		}
+
+	template<class type>
+	const BinarySearchTree<type>& BinarySearchTree<type>::operator=(const BinarySearchTree& rhs)
+	{
+		if (*this != rhs)
+		{
+			makeEmpty(root);
+			root = clone(rhs.root);
+		}
+		return *this;
+	}
+
+	template<class type>
+	void BinarySearchTree<type>::preOrder(BinaryNode *&t) const
+	{
+		if (t)
+		{
+			std::cout << t->elements << " ";
+			preOrder(t->left);
+			preOrder(t->right);
+		}
+	}
+
+	template<class type>
+	void BinarySearchTree<type>::preOrder()
+	{
+		this->preOrder(root);
+	}
+
 }
