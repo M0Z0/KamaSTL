@@ -4,9 +4,9 @@
 namespace DSA{
 
 	template<class type>
-	bool BinarySearchTree<type>::contains(const type &ele, BinaryNode *t)
+	bool BinarySearchTree<type>::contains(const type &ele, BinaryNode *&t)
 	{
-		if (nullptr == ele)
+		if (nullptr == t)
 			return false;
 		else if (ele < t->elements)
 			return contains(ele, t->left);
@@ -19,7 +19,7 @@ namespace DSA{
 	template<class type>
 	bool BinarySearchTree<type>::contains(const type &ele)
 	{
-		contains(ele, root);
+		return contains(ele, root);
 	}
 
 	template<class type>
@@ -63,7 +63,7 @@ namespace DSA{
 
 
 	template<class type>
-	void BinarySearchTree<type>::remove(const type &ele, BinaryNode *t)
+	void BinarySearchTree<type>::remove(const type &ele, BinaryNode *&t)
 	{
 		if (NULL == t)
 			return;
@@ -135,7 +135,7 @@ namespace DSA{
 	{
 		if (t)
 		{
-			std::cout << t->elements << " ";
+			std::cout << t->elements << std::endl;
 			preOrder(t->left);
 			preOrder(t->right);
 		}
@@ -145,6 +145,23 @@ namespace DSA{
 	void BinarySearchTree<type>::preOrder()
 	{
 		this->preOrder(root);
+	}
+
+	template<class type>
+	void BinarySearchTree<type>::inOrder(BinaryNode *&t) const
+	{
+		if (t)
+		{			
+			preOrder(t->left);
+			std::cout << t->elements << std::endl;
+			preOrder(t->right);
+		}
+	}
+
+	template<class type>
+	void BinarySearchTree<type>::inOrder()
+	{
+		this->inOrder(root);
 	}
 
 }

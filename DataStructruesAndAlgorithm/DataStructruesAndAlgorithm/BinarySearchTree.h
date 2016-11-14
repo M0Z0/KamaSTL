@@ -19,6 +19,8 @@ namespace DSA{
 		void remove(const type &ele);
 		void makeEmpty(BinaryNode *t);
 		void preOrder();
+		void inOrder();
+
 
 	private:
 		struct BinaryNode 
@@ -32,11 +34,12 @@ namespace DSA{
 		};
 		BinaryNode *root;
 
-		bool contains(const type &ele, BinaryNode *t);
+		bool contains(const type &ele, BinaryNode *&t);
 		void insert(const type &ele, BinaryNode *&t);
-		void remove(const type &ele, BinaryNode *t);
+		void remove(const type &ele, BinaryNode *&t);
 		BinaryNode* clone(BinaryNode* t) const;
 		void preOrder(BinaryNode *&t) const;
+		void inOrder(BinaryNode *&t) const;
 	};//End of class
 }
 

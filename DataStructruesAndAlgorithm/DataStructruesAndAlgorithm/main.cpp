@@ -9,6 +9,13 @@ void main()
 	{
 		bst->insert(i);
 	}
+	bst->inOrder();
+	bool ret = bst->contains(43);
+	for (int i = 50; i < 70; i++)
+	{
+		bst->remove(i);
+	}
 	bst->preOrder();
+	getchar();
 
 }
