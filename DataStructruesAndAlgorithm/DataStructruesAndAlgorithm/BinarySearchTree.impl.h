@@ -151,7 +151,7 @@ namespace DSA{
 	void BinarySearchTree<type>::inOrder(BinaryNode *&t) const
 	{
 		if (t)
-		{			
+		{
 			preOrder(t->left);
 			std::cout << t->elements << std::endl;
 			preOrder(t->right);

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataStructruesAndAlgorithm", "DataStructruesAndAlgorithm\DataStructruesAndAlgorithm.vcxproj", "{E44C4183-2422-4100-B267-622E10E565F0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataStructruesAndAlgorithm", "DataStructruesAndAlgorithm\DataStructruesAndAlgorithm.vcxproj", "{7C443A4A-EFE3-42E9-8A40-198F7261E1FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E44C4183-2422-4100-B267-622E10E565F0}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E44C4183-2422-4100-B267-622E10E565F0}.Debug|Win32.Build.0 = Debug|Win32
-		{E44C4183-2422-4100-B267-622E10E565F0}.Release|Win32.ActiveCfg = Release|Win32
-		{E44C4183-2422-4100-B267-622E10E565F0}.Release|Win32.Build.0 = Release|Win32
+		{7C443A4A-EFE3-42E9-8A40-198F7261E1FD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7C443A4A-EFE3-42E9-8A40-198F7261E1FD}.Debug|Win32.Build.0 = Debug|Win32
+		{7C443A4A-EFE3-42E9-8A40-198F7261E1FD}.Release|Win32.ActiveCfg = Release|Win32
+		{7C443A4A-EFE3-42E9-8A40-198F7261E1FD}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E44C4183-2422-4100-B267-622E10E565F0}</ProjectGuid>
+    <ProjectGuid>{7C443A4A-EFE3-42E9-8A40-198F7261E1FD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DataStructruesAndAlgorithm</RootNamespace>
   </PropertyGroup>
@@ -78,6 +78,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AVLTree.h" />
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="BinarySearchTree.impl.h" />
   </ItemGroup>

@@ -23,7 +23,7 @@ namespace DSA{
 
 
 	private:
-		struct BinaryNode 
+		struct BinaryNode
 		{
 			type elements;
 			BinaryNode *left;
