@@ -1,4 +1,5 @@
 #include "BinarySearchTree.h"
+#include "HashSep.h"
 
 void main()
 {
@@ -16,6 +17,12 @@ void main()
 		bst->remove(i);
 	}
 	bst->preOrder();
-	getchar();
+	//getchar();
+
+	HashTable ht = InitializeTable(87);
+	for (int i = 0; i < 87; i++)
+	{
+		insert(i + 100, ht);
+	}
 
 }

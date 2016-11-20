@@ -81,8 +81,11 @@
     <ClInclude Include="AVLTree.h" />
     <ClInclude Include="BinarySearchTree.h" />
     <ClInclude Include="BinarySearchTree.impl.h" />
+    <ClInclude Include="fatal.h" />
+    <ClInclude Include="HashSep.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="HashSep.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
