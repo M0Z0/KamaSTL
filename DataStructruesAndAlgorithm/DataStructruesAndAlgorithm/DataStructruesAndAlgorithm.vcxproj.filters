@@ -30,12 +30,18 @@
     <ClInclude Include="fatal.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="BinHeap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="HashSep.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="BinHeap.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

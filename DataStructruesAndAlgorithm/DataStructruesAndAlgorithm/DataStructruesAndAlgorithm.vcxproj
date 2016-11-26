@@ -83,8 +83,10 @@
     <ClInclude Include="BinarySearchTree.impl.h" />
     <ClInclude Include="fatal.h" />
     <ClInclude Include="HashSep.h" />
+    <ClInclude Include="BinHeap.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BinHeap.cpp" />
     <ClCompile Include="HashSep.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

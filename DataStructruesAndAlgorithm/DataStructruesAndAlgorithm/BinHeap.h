@@ -1,9 +1,10 @@
 #ifndef _BIN_HEAP_H
 #define _BIN_HEAP_H
 
-typedef int ElementType;
+
 namespace BH
 {
+	typedef int ElementType;
 	struct HeapStruct;
 	typedef struct HeapStruct *PriorityQueue;
 	PriorityQueue Initialize(int MaxElements);
@@ -14,5 +15,6 @@ namespace BH
 	ElementType FindMin(PriorityQueue H);
 	int IsEmpty(PriorityQueue H);
 	int IsFull(PriorityQueue H);
+}
 
 #endif // !_BIN_HEAP_H

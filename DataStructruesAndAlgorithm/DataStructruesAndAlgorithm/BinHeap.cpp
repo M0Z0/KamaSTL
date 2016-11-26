@@ -19,7 +19,7 @@ namespace BH{
 		if (MaxElements < MinPQSize)
 			Error("too small");
 
-		PriorityQueue H = (struct HeapStruct*)malloc(sizeof(struct HeapStruct));
+		PriorityQueue H = (PriorityQueue)malloc(sizeof(struct HeapStruct));
 		if (NULL == H)
 			FatalError("out of space!");
 
@@ -52,7 +52,33 @@ namespace BH{
 
 	ElementType DeleteMin(PriorityQueue H)
 	{
+		ElementType MinElement, LastElement;
 
+		if (IsEmpty(H))
+		{
+			Error("Is empty");
+			return H->Elements[0];
+		}
+
+		MinElement = H->Elements[1];
+		LastElement = H->Elements[--H->Size];
+
+		int i, Child;
+		for (i = 1; i * 2 < H->Size; i=Child)
+		{
+			Child = i * 2;
+			// Find smaller child
+			if (Child != H->Size
+				&& H->Elements[Child + 1] < H->Elements[Child])
+				++Child;
+
+			if (LastElement > H->Elements[Child])
+				H->Elements[i] = H->Elements[Child];
+			else
+				break;
+		}
+		H->Elements[i] = LastElement;
+		return MinElement;
 	}
 
 	void MakeEmpty(PriorityQueue H)
@@ -74,5 +100,13 @@ namespace BH{
 	{
 		free(H->Elements);
 		free(H);
+	}
+
+	ElementType FindMin(PriorityQueue H)
+	{
+		if (!IsEmpty(H))
+			return H->Elements[1];
+		Error("Is empty");
+		return H->Elements[0];
 	}
 }
