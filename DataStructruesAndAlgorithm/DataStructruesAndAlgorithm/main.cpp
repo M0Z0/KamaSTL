@@ -1,7 +1,7 @@
 #include "BinarySearchTree.h"
 #include "HashSep.h"
 #include "BinHeap.h"
-#include "InsertionSort.h"
+#include "Sort.h"
 #include <iostream>
 
 void main()
@@ -37,7 +37,7 @@ void main()
 	int p = BH::FindMin(pq);
 
 	int Arr[7] = { 1, 5, 2, 3, 9, 0, 3 };
-	int *b = InsertionSort(Arr, 7);
+	int *b = SORT::HeapSort(Arr, 7);
 	for (int i = 0; i < 7;++i)
 	{
 		std::cout << b[i] << std::endl;
