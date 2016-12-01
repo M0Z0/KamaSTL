@@ -36,11 +36,13 @@ void main()
 	}
 	int p = BH::FindMin(pq);
 
-	int Arr[7] = { 1, 5, 2, 3, 9, 0, 3 };
-	int *b = SORT::HeapSort(Arr, 7);
+	int Arr[7] = { 5, 11, 7, 2, 3, 17 };
+	int *b = SORT::HeapSort(Arr, 6);
 	for (int i = 0; i < 7;++i)
 	{
 		std::cout << b[i] << std::endl;
 	}
+	int arr2[] = { 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+	SORT::MergeSortMe(arr2, 9);
 	getchar();
 }
