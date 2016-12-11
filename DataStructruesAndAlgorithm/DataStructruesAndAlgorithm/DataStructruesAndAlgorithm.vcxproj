@@ -84,6 +84,7 @@
     <ClInclude Include="fatal.h" />
     <ClInclude Include="HashSep.h" />
     <ClInclude Include="BinHeap.h" />
+    <ClInclude Include="LeetCode.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="LeftHeap.h" />
   </ItemGroup>

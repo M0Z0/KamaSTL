@@ -156,14 +156,14 @@ namespace SORT
 			int i = l, j = r, x = s[l];
 			while (i<j) 
 			{
-				while (i < j&&s[j] >= x)// 从右向左找第一个小于x的数
+				while (i < j&&s[j] > x)// 从右向左找第一个小于x的数 注：此处>,下一个循环<=
 					j--;
-				if (l < r)
+				if (i < j)
 					s[i++] = s[j];
 
 				while (i < j&&s[i] <= x)// 从左向右找第一个大于等于x的数
 					i++;
-				if (l < r)
+				if (i < j)
 					s[j--] = s[i];
 			}
 			s[i] = x;//退出时，i等于j。将x填到这个坑中。 
