@@ -120,3 +120,42 @@ public:
 		return tail->next;
 	}
 };
+
+/*3. Longest Substring Without Repeating Characters
+Given a string, find the length of the longest substring without repeating characters.
+
+Examples:
+Given "abcabcbb", the answer is "abc", which the length is 3.
+Given "bbbbb", the answer is "b", with the length of 1.
+Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.*/
+
+int lengthOfLongestSubstring(char* s) {
+	if (strlen(s) == 0)
+		return 0;
+	bool isAppeared[126];
+	for (int i = 0; i < 126; ++i) //数组别越界
+		isAppeared[i] = false;
+	char* start = s, *end = s;
+	int max = 0, cur = 1;
+
+	while (*start)
+	{
+		if (((*end) != '\0') && (isAppeared[(*end)] == false))
+		{
+			isAppeared[(*end)] = true;
+			++end;
+			++cur;
+			if (cur > max)
+				max = cur;
+		}
+		else
+		{
+			for (int i = 0; i < 126; ++i)
+				isAppeared[i] = false;
+			++start;
+			end = start;
+			cur = 1;
+		}
+	}
+	return (--max);
+}

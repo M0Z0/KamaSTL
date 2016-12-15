@@ -46,9 +46,11 @@ void main()
 	int arr2[] = { 4,1,2,7,8,3,2,6,7 };
 	SORT::QuickSort(arr2, 0, 8);
 	vector<int> m = { 0,4,3,0};
-	Solution s;
+	Solution1 s;
 	
 	vector<int> in = s.twoSum(m, 0);
 
+	char *a = "pwwkew";
+	int cout = lengthOfLongestSubstring(a);
 	getchar();
 }
