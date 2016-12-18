@@ -52,5 +52,14 @@ void main()
 
 	char *a = "pwwkew";
 	int cout = lengthOfLongestSubstring(a);
+
+	vector<int> aa1 = { 1,  2 };
+	vector<int> aa2 = { 3,4 };
+	Solution4 s4;
+	double r = s4.findMedianSortedArrays(aa1, aa2);
+
+	Solution5 s5;
+	string src5 = "ccc";
+	string r5 = s5.longestPalindrome(src5);
 	getchar();
 }

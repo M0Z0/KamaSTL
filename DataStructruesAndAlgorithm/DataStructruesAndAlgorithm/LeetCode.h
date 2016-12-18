@@ -1,3 +1,7 @@
+#include <vector>
+#include <algorithm>
+#include <string>
+using namespace std;
 /*
 1. Two Sum
 Given an array of integers, return indices of the two numbers such that they add up to a specific target.
@@ -11,9 +15,6 @@ Because nums[0] + nums[1] = 2 + 7 = 9,
 return[0, 1].
 */
 
-#include <vector>
-#include <algorithm>
-using namespace std;
 class Solution1 {
 public:
 	vector<int> twoSum(vector<int>& nums, int target) 
@@ -159,3 +160,121 @@ int lengthOfLongestSubstring(char* s) {
 	}
 	return (--max);
 }
+
+class Solution4 {
+public:
+	double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+		int m = nums1.size();
+		int n = nums2.size();
+		vector<int> des;
+
+		vector<int>::iterator it1 = nums1.begin();
+		vector<int>::iterator it2 = nums2.begin();
+
+		while (it1 != nums1.end() || it2 != nums2.end())
+		{
+			double a, b;
+			if (it1 == nums1.end())
+				a = 999999;
+			else
+				a = *it1;
+
+			if (it2 == nums2.end())
+				b = 999999;
+			else
+				b = *it2;
+
+			if (a < b)
+			{
+				des.push_back(a);
+				it1++;
+			}
+			else
+			{
+				des.push_back(b);
+				it2++;
+			}
+		}
+
+		double desSize = des.size();
+		double ret = 0;
+		if (desSize == 1)
+			return des[0];
+		if (des.size() % 2 == 0)
+			ret = ((double)des[desSize / 2] + (double)des[desSize / 2 - 1]) / (double)2;
+		else
+			ret = (double)des[desSize / 2];
+
+		return ret;
+	}
+};
+
+/*5. Longest Palindromic Substring
+Given a string s, find the longest palindromic substring in s.You may assume that the maximum length of s is 1000.
+
+Example:
+
+Input : "babad"
+
+Output : "bab"
+
+Note : "aba" is also a valid answer.
+Example :
+
+Input : "cbbd"
+
+Output : "bb"*/
+class Solution5 {
+public:
+	string longestPalindrome(string s) {
+		if (s.size() == 1)
+		{
+			string ret;
+			ret.push_back(s[0]);
+			return ret;
+		}
+
+		string maxPalindromeStr;
+		for (int i = 0; i<s.size(); ++i)
+		{
+			string curPalindromeStr = this->palindrome(s, i);
+			if (curPalindromeStr.size()>maxPalindromeStr.size())
+				maxPalindromeStr = curPalindromeStr;
+		}
+		return maxPalindromeStr;
+	}
+
+	string palindrome(string s, int i) {
+		int oddLeft = i;
+		int oddRight = i;
+		while (oddLeft > 0 && oddRight < s.size() && s[oddLeft - 1] == s[oddRight + 1])
+		{
+			--oddLeft;
+			++oddRight;
+		}
+
+		int evenLeft = i - 1;
+		int evenRight = i;
+		while (evenLeft >= 0 && evenRight < s.size() && s[evenLeft] == s[evenRight])
+		{
+			--evenLeft;
+			++evenRight;
+		}
+		++evenLeft;
+		--evenRight;
+
+		string palindromeStr;
+		if ((oddRight - oddLeft) >= (evenRight - evenLeft))
+		{
+			for (int k = oddLeft; k <= oddRight; k++)
+				palindromeStr.push_back(s[k]);
+		}
+		else
+		{
+			for (int k = evenLeft; k <= evenRight; k++)
+				palindromeStr.push_back(s[k]);
+		}
+		return palindromeStr;
+	}
+
+};
