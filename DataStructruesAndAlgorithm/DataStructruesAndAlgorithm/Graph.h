@@ -2,34 +2,34 @@
 #define _GRAPH_H_
 
 #include<iostream>
-#include <cstdio>
+#include <vector>
 using namespace std;
 
-//邻接表
-const int maxn = 100; //最大顶点数
-int n, m; //顶点数，边数
+const int MAX = 100;
 
-struct arcnode //邻接边结点 
+// 邻接表
+class ListDG
 {
-	int vertex; //与表头相邻的顶点编号
-	int weight = 0; //权
-	arcnode *next;
-	arcnode() {}
-	arcnode(int v) :vertex(v), next(NULL) {}
-};
-
-struct  vernode //顶点，表头结点集
-{
-	int vex; //当前顶点编号
-	arcnode *firarc; //邻接表指针
-}Ver[maxn];
-
-void Init()
-{
-	for (int i = 1; i <= n; i++)
+private:
+	// 邻接表中表对应的链表的顶点
+	class ENode
 	{
-		Ver[i].vex = i;
-		Ver[i].firarc = NULL;
-	}
-}
+	public:
+		int ivex;					 // 该边所指向的顶点的位置
+		ENode *nextEdge;  // 指向下一条弧的指针
+	};
+
+	// 邻接表中表的顶点
+	class VNode
+	{
+	public:
+		char data;				 // 顶点信息
+		ENode *firstEdge;  // 指向第一条依附该顶点的弧
+	};
+
+private:
+	int mVexNum;			 // 图的顶点的数目
+	int mEdgeNum;		 // 图的边的数目
+	VNode mVexs[MAX];
+};
 #endif
