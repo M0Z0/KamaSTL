@@ -61,5 +61,8 @@ void main()
 	Solution5 s5;
 	string src5 = "ccc";
 	string r5 = s5.longestPalindrome(src5);
+
+	Solution7 s7;
+	int ret7 = s7.reverse2(153423646);
 	getchar();
 }

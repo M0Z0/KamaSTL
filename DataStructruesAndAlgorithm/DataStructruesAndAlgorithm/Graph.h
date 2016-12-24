@@ -31,5 +31,9 @@ private:
 	int mVexNum;			 // 图的顶点的数目
 	int mEdgeNum;		 // 图的边的数目
 	VNode mVexs[MAX];
+
+public:
+	// 创建邻接表对应的图(自己输入)
+	ListDG();
 };
 #endif

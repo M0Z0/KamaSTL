@@ -1,6 +1,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <list>
 using namespace std;
 /*
 1. Two Sum
@@ -17,7 +18,7 @@ return[0, 1].
 
 class Solution1 {
 public:
-	vector<int> twoSum(vector<int>& nums, int target) 
+	vector<int> twoSum(vector<int>& nums, int target)
 	{
 		vector<int> numCopy = nums;
 		std::sort(numCopy.begin(), numCopy.end());
@@ -26,10 +27,10 @@ public:
 		int j = len - 1;
 
 		vector<int> ret;
-		while (i<j)
+		while (i < j)
 		{
 			int sum = numCopy[i] + numCopy[j];
-			if (sum==target)
+			if (sum == target)
 			{
 				for (int k = 0; k < len; ++k)
 				{
@@ -39,7 +40,7 @@ public:
 						break;
 					}
 				}
-				for (int h = len-1; h > -1; --h)
+				for (int h = len - 1; h > -1; --h)
 				{
 					if (numCopy[j] == nums[h])
 					{
@@ -49,11 +50,11 @@ public:
 				}
 				break;
 			}
-			else if (sum>target)
+			else if (sum > target)
 			{
 				j--;
 			}
-			else if (sum<target)
+			else if (sum < target)
 			{
 				i++;
 			}
@@ -62,7 +63,7 @@ public:
 	}
 };
 
-/*2. Add Two Numbers   
+/*2. Add Two Numbers
 Add to List QuestionEditorial Solution  My Submissions
 You are given two linked lists representing two non - negative numbers.The digits are stored in reverse order and each of their nodes contain a single digit.Add the two numbers and return it as a linked list.
 Input : (2 -> 4 -> 3) + (5 -> 6 -> 4)
@@ -330,3 +331,80 @@ public:
 		return res;
 	}
 };
+
+class Solution7 {
+public:
+	int reverse1(int x) {
+		if (x > -10 && x < 10)
+			return x;
+		int y = x;
+		if (x<0)
+		{
+			x *= -1;
+		}
+		list<int> li;
+		int tmp = 1;
+		int count = 0;
+		for (;;) {
+			int bit = x%10;
+			if (x != 0) {
+				li.push_back(bit);
+				tmp *= 10;
+				x /= 10;
+			}
+			else{
+				break;
+			}
+		}
+		int digit = 0;
+		tmp /= 10;
+
+		bool noAdd = true;
+		list<int>::iterator it = li.begin();
+		for (; it != li.end(); ++it)
+		{
+			int t = *it;
+			if (t == 0 && noAdd)
+			{
+				tmp /= 10;
+				continue;
+			}
+			else
+			{
+				noAdd = false;
+				digit = digit + (t*tmp);
+				tmp /= 10;
+			}
+		}
+		if (y < 0)
+			digit *= -1;
+		return digit;
+	}
+	int reverse2(int x) {
+		// Note: The Solution object is instantiated only once and is reused by each test case.  
+		int result = 0;
+
+		int flag = 0;
+		if (x < 0)
+		{
+			flag = 1;
+			x = -x;
+		}
+
+		int lastDigit = 0;
+		while (x > 0)
+		{
+			lastDigit = x - x / 10 * 10;
+			result = result * 10 + lastDigit;
+			x /= 10;
+		}
+
+		if (flag == 1)
+		{
+			result = -result;
+		}
+
+		return result;
+	}
+};
+
