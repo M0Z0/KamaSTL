@@ -64,5 +64,14 @@ void main()
 
 	Solution7 s7;
 	int ret7 = s7.reverse2(153423646);
+
+	Solution8 s8;
+	int ret8 = s8.myAtoi("--++12p3");
+
+	Solution9 s9;
+	int ret9 = s9.isPalindrome(12);
+
+	Solution12 s12;
+	string ret12 = s12.intToRoman(3999);
 	getchar();
 }

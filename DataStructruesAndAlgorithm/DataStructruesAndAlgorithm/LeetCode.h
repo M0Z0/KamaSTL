@@ -331,7 +331,10 @@ public:
 		return res;
 	}
 };
-
+/*7. Reverse Integer
+Reverse digits of an integer.
+Example1: x = 123, return 321
+Example2 : x = -123, return -321*/
 class Solution7 {
 public:
 	int reverse1(int x) {
@@ -408,3 +411,163 @@ public:
 	}
 };
 
+/*8. String to Integer(atoi)
+Implement atoi to convert a string to an integer.
+Hint: Carefully consider all possible input cases.If you want a challenge, please do not see below and ask yourself what are the possible input cases.
+  Notes : It is intended for this problem to be specified vaguely(ie, no given input specs).You are responsible to gather all the input requirements up front.*/
+class Solution8 {
+public:
+	int myAtoi(string str) {
+		int len = str.length();
+		if (len == 0)
+			return 0;
+		long long tmp = 0;
+		bool bNofirst = false;
+		bool bNegative = false;
+		for (int i = 0; i != len; ++i) {
+			if (str[i] >= '0' && str[i] <= '9') {
+				tmp = tmp * 10 + str[i] % 48;
+				bNofirst = true;
+			}
+			else if (str[i] == '-' && bNofirst == false) //数字前的合法字符是负号
+				bNegative = true;
+			else if (str[i] == '+' && bNofirst == false) //数字前的合法字符是正数
+				bNegative = false;
+			else if ((str[i] == '-' && bNofirst == true) ||
+				(str[i] == '+' && bNofirst == true))
+				break;
+			else if (str[i] == '\0')
+				;
+			else
+				return 0;
+		}
+		if (bNegative)
+			tmp = -tmp;
+		if (tmp>INT_MAX)
+			return INT_MAX;	
+		else if (tmp<INT_MIN)
+		    return INT_MIN;
+		else
+			return (int)tmp;
+	}
+};
+
+/*9. Palindrome Number
+Determine whether an integer is a palindrome.Do this without extra space.*/
+class Solution9 {
+public:
+	bool isPalindrome(int x) {
+		if (x < 0)
+			return false;
+		else if (x >= 0 && x<10)
+			return true;
+		int vec[20] = { 0 };
+		int count = 0;
+		for (;;) {
+			int remainder = x % 10;
+			x /= 10;
+			if (x == 0 && remainder == 0)
+				break;
+			else
+				vec[count++] = remainder;
+		}
+
+		int ret = true;
+		int times = count / 2;
+		int c = --count;
+		for (int i = 0; times != 0; --times, ++i) {
+			if (vec[i] != vec[c--]) {
+				ret = false;
+				break;
+			}
+		}
+		return ret;
+	}
+};
+
+/*11. Container With Most Water
+Given n non - negative integers a1, a2, ..., an, where each represents a point at coordinate(i, ai).n vertical lines are drawn such that the two endpoints of line i is at(i, ai) and(i, 0).Find two lines, which together with x - axis forms a container, such that the container contains the most water.
+Note: You may not slant the container and n is at least 2.*/
+class Solution11 {
+public:
+	int maxArea(vector<int>& height) {
+		int n = height.size();
+		int maxArea = 0;
+		int i = 0;
+		int j = n - 1;
+		while (i<j)
+		{
+			int temp = (j - i)*(height[i]>height[j] ? height[j] : height[i]);
+			if (height[i] < height[j])
+			{
+				i++;
+			}
+			else
+			{
+				j--;
+			}
+			if (maxArea < temp)
+			{
+				maxArea = temp;
+			}
+		}
+		return maxArea;
+	}
+};
+
+/*12. Integer to Roman
+Given an integer, convert it to a roman numeral.
+Input is guaranteed to be within the range from 1 to 3999.
+罗马数字规则：
+1， 罗马数字共有7个，即I（1）、V（5）、X（10）、L（50）、C（100）、D（500）和M（1000）。
+罗马数字中没有“0”。
+2， 重复次数：一个罗马数字最多重复3次。
+3， 右加左减：
+在较大的罗马数字的右边记上较小的罗马数字，表示大数字加小数字。
+在较大的罗马数字的左边记上较小的罗马数字，表示大数字减小数字。
+4， 左减的数字有限制，仅限于I、X、C，且放在大数的左边只能用一个。
+(*) V 和 X 左边的小数字只能用Ⅰ。
+(*) L 和 C 左边的小数字只能用X。
+(*) D 和 M 左 边的小数字只能用C。*/
+class Solution12 {
+public:
+	struct node{
+		int key;
+		string szRoman;
+		node(int k, string s) :key(k), szRoman(s){}
+	};
+
+	string intToRoman(int num) {
+		vector<node> dct;
+		dct.push_back(node(1000, "M"));
+		dct.push_back(node(900, "CM"));
+		dct.push_back(node(500, "D"));
+		dct.push_back(node(400, "CD"));
+		dct.push_back(node(100, "C"));
+		dct.push_back(node(90, "XC"));
+		dct.push_back(node(50, "L"));
+		dct.push_back(node(40, "XL"));
+		dct.push_back(node(10, "X"));
+		dct.push_back(node(9, "IX"));
+		dct.push_back(node(5, "V"));
+		dct.push_back(node(4, "IV"));
+		dct.push_back(node(1, "I"));
+
+		string res;
+		int i = 0;
+		while (num > 0)
+		{
+			if (num / dct[i].key == 0)
+			{
+				i += 1;
+				continue;
+			}
+
+			for (int j = 0; j < num / dct[i].key; ++j)
+				res.append(dct[i].szRoman);
+
+			num %= dct[i].key;
+		}
+		return res;
+	}
+};
