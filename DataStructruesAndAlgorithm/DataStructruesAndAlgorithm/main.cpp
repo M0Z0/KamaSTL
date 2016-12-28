@@ -73,5 +73,13 @@ void main()
 
 	Solution12 s12;
 	string ret12 = s12.intToRoman(3999);
+
+	vector<string> vec14;
+	string str1 = "asdqwe";
+	string str2 = "asdd";
+	//vec14.push_back(str1);
+	//vec14.push_back(str2);
+	Solution14 s14;
+	string ret14 = s14.longestCommonPrefix(vec14);
 	getchar();
 }

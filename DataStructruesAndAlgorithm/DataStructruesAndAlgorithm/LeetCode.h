@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <string>
 #include <list>
+#include <map>
 using namespace std;
 /*
 1. Two Sum
@@ -569,5 +570,62 @@ public:
 			num %= dct[i].key;
 		}
 		return res;
+	}
+};
+
+
+/*13. Roman to Integer
+Given a roman numeral, convert it to an integer.
+Input is guaranteed to be within the range from 1 to 3999.*/
+class Solution13 {
+public:
+	int romanToInt(string s) {
+		map<char, int> dct;
+		dct['I'] = 1, dct['i'] = 1;
+		dct['V'] = 5, dct['v'] = 5;
+		dct['X'] = 10, dct['x'] = 10;
+		dct['L'] = 50, dct['l'] = 50;
+		dct['C'] = 100, dct['c'] = 100;
+		dct['D'] = 500, dct['d'] = 500;
+		dct['M'] = 1000, dct['m'] = 1000;
+
+		int sum = 0;
+		int j = 0;
+		for (int i = 0; i < s.size(); ++i) {
+			j = i + 1;
+			if (j<s.size() && dct[s[j]]>dct[s[i]]) {
+				sum += (dct[s[j]] - dct[s[i]]);
+				i = j;
+			}
+			else{
+				sum += dct[s[i]];
+			}
+		}
+		return sum;
+	}
+};
+
+/*14. Longest Common Prefix
+Write a function to find the longest common prefix string amongst an array of strings.*/
+class Solution14 {
+public:
+	string longestCommonPrefix(vector<string>& strs) {
+		int size = strs.size();
+		if (size == 0)
+			return "";
+
+		string longPrefix = strs[0];
+		for (int i = 1; i < size; ++i) {
+			if (longPrefix.length() == 0 || strs[i].length() == 0)
+				return "";
+			int len = longPrefix.length() < strs[i].length() ? longPrefix.length() : strs[i].length();
+			int j = 0;
+			for (; j < len; ++j) {
+				if (longPrefix[j] != strs[i][j])
+					break;
+			}
+			longPrefix = longPrefix.substr(0, j);
+		}
+		return longPrefix;
 	}
 };
