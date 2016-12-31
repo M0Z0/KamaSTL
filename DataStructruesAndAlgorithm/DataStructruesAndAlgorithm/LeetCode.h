@@ -629,3 +629,129 @@ public:
 		return longPrefix;
 	}
 };
+
+class Solution15 {
+public:
+	vector<vector<int> >* v;
+	vector<vector<int>> threeSumT(vector<int>& nums) {
+		v = new vector<vector<int>>();
+		if (nums.size() < 3)
+		{
+			return *v;
+		}
+
+		sort(nums.begin(), nums.end());
+
+		for (int i = 0; i < nums.size() - 2; i++)
+		{
+			if (i > 0 && nums[i] == nums[i - 1])
+			{
+				continue;
+			}
+			for (int j = i + 1; j < nums.size() - 1; j++)
+			{
+				if (j > i + 1 && nums[j] == nums[j - 1])
+				{
+					continue;
+				}
+				int left = j + 1;
+				int right = nums.size() - 1;
+				while (left <= right)
+				{
+					int mid = left + ((right - left) >> 1);
+					if (nums[i] + nums[j] + nums[mid] == 0)
+					{
+						vector<int> tmp;
+						tmp.push_back(nums[i]);
+						tmp.push_back(nums[j]);
+						tmp.push_back(nums[mid]);
+
+						v->push_back(tmp);
+						break;
+					}
+					else if (nums[i] + nums[j] + nums[mid] > 0)
+					{
+						right = mid - 1;
+					}
+					else
+					{
+						left = mid + 1;
+					}
+				}
+			}
+		}
+
+		return *v;
+	}
+
+	vector<vector<int>> threeSum(vector<int>& nums) {
+		std::sort(nums.begin(), nums.end());
+		vector<vector<int>> ret;
+		vector<int> onceResult;
+		for (int i = 0; i < nums.size(); ++i) {
+			int j = i + 1;
+			int k = nums.size() - 1;
+			int target = 0 - nums[i];
+			while (j < k) {
+				if (nums[j] + nums[k] == target) {
+					onceResult.clear();
+					onceResult.push_back(nums[i]);
+					onceResult.push_back(nums[j]);
+					onceResult.push_back(nums[k]);
+
+					/*bool isRepeat = false;
+					for(int i=0; i<ret.size();++i)
+					if(onceResult == ret[i])
+					isRepeat = true;
+
+					if(!isRepeat)*/
+					ret.push_back(onceResult);
+					++j;
+					--k;
+					continue;
+				}
+				else if (nums[j] + nums[k] < target) {
+					++j;
+				}
+				else if (nums[j] + nums[k] > target) {
+					--k;
+				}
+			}
+		}
+		return ret;
+	}
+};
+
+class Solution16 {
+public:
+	int threeSumClosest(vector<int>& nums, int target) {
+		std::sort(nums.begin(), nums.end());
+		int min = 65535;
+		vector<int> onceResult;
+		for (int i = 0; i < nums.size(); ++i) {
+			int j = i + 1;
+			int k = nums.size() - 1;
+			while (j < k) {
+				int tmp = 0;
+				if (target >(nums[i] + nums[j] + nums[k]))
+					tmp = target - (nums[i] + nums[j] + nums[k]);
+				else
+					tmp = (nums[i] + nums[j] + nums[k]) - target;
+				if (tmp < min) {
+					min = tmp;
+					onceResult.clear();
+					onceResult.push_back(nums[i]);
+					onceResult.push_back(nums[j]);
+					onceResult.push_back(nums[k]);
+				}
+				if (nums[j] + nums[k] < target) {
+					++j;
+				}
+				else {
+					--k;
+				}
+			}
+		}
+		return onceResult[0] + onceResult[1] + onceResult[2];
+	}
+};

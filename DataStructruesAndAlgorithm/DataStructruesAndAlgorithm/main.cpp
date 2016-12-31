@@ -81,5 +81,13 @@ void main()
 	//vec14.push_back(str2);
 	Solution14 s14;
 	string ret14 = s14.longestCommonPrefix(vec14);
+
+	Solution15 s15;
+	vector<int> vec15 = { -1, 0, 1, 2, -1, -4 };
+	vector<vector<int>> ret15 = s15.threeSum(vec15);
+
+	Solution16 s16;
+	vector<int> vec16 = { -1, 2, 1, -4};
+	int ret16 = s16.threeSumClosest(vec16, 1);
 	getchar();
 }
