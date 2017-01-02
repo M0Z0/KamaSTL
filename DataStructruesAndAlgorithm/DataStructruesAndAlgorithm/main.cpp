@@ -87,7 +87,27 @@ void main()
 	vector<vector<int>> ret15 = s15.threeSum(vec15);
 
 	Solution16 s16;
-	vector<int> vec16 = { -1, 2, 1, -4};
+	vector<int> vec16 = { 0, 2, 1, -3};
 	int ret16 = s16.threeSumClosest(vec16, 1);
+
+	Solution19 s19;
+	ListNode *head = s19.init();
+	ListNode *ret19 = s19.removeNthFromEnd(head, 1);
+	//for (; ret19->next != NULL; ret19 = ret19->next)
+	//{
+	//	std::cout << ret19->val << std::endl;
+	//}
+
+	Solution20 s20;
+	string str20 = "[[";
+	int ret20 = s20.isValid(str20);
+
+	Solution24 s24;
+	ListNode *head24 = s24.init();
+	ListNode *ret24 = s24.swapPairs(head24);
+	for (; ret24->next != NULL; ret24 = ret24->next)
+	{
+		std::cout << ret24->val << std::endl;
+	}
 	getchar();
 }

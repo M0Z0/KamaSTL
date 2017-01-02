@@ -3,6 +3,8 @@
 #include <string>
 #include <list>
 #include <map>
+#include <stack>
+#include <queue> 
 using namespace std;
 /*
 1. Two Sum
@@ -722,7 +724,7 @@ public:
 	}
 };
 
-class Solution16 {
+class Solution16 { //和sum2类似
 public:
 	int threeSumClosest(vector<int>& nums, int target) {
 		std::sort(nums.begin(), nums.end());
@@ -744,7 +746,7 @@ public:
 					onceResult.push_back(nums[j]);
 					onceResult.push_back(nums[k]);
 				}
-				if (nums[j] + nums[k] < target) {
+				if (nums[i] + nums[j] + nums[k] < target) {
 					++j;
 				}
 				else {
@@ -753,5 +755,227 @@ public:
 			}
 		}
 		return onceResult[0] + onceResult[1] + onceResult[2];
+	}
+};
+
+/*19. Remove Nth Node From End of List
+Given a linked list, remove the nth node from the end of list and return its head.
+
+For example,
+
+Given linked list : 1->2->3->4->5, and n = 2.
+
+After removing the second node from the end, the linked list becomes 1->2->3->5.*/
+class Solution19 {
+public:
+	//typedef struct ListNode ListNode;
+	ListNode* init() {
+		
+		ListNode* p = new ListNode(1);
+		//ListNode* q = p;
+		//for (int i = 2; i < 6; ++i)
+		//{
+		//	p->next = new ListNode(i);
+		//	p = p->next;
+		//}
+		//return q;
+		return p;
+	}
+	ListNode* removeNthFromEnd(ListNode* head, int n) {
+		ListNode* p = head;
+		ListNode* q = head;
+		int nodeCount = 1;
+		for (; p->next != NULL; ++nodeCount, p = p->next) {}
+		p = q; //重新把指针指到头
+		if (n <= nodeCount) {
+			int currentNode = 0;
+			if (p->next == NULL)
+				return NULL;
+			while (p->next != NULL) {
+				if (nodeCount - n == 0) {
+					head = p->next;
+					delete p;
+					return head;
+				}
+				if (currentNode + 1 == (nodeCount - n) && (nodeCount - n) != 0) {
+					q = p->next;
+					p->next = q->next;
+					delete q;
+					q = NULL;
+					break;
+				}
+				else{
+					p = p->next;
+					q = p;
+					++currentNode;
+				}
+			}
+		}
+		else{
+			return NULL;
+		}
+		return head;
+	}
+};
+
+/*20. Valid Parentheses
+Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+
+The brackets must close in the correct order, "()" and "()[]{}" are all valid but "(]" and "([)]" are not.*/
+class Solution20 {
+public:
+	bool isValid(string s) {
+		stack<char> parStack;
+		int length = s.size();
+		if (length == 1)
+			return false;
+		for (int i = 0; i < length; ++i) {
+			char c = s[i];
+			switch (c) {
+			case '(':
+			case '{':
+			case '[':
+				parStack.push(c);
+				break;
+			case ')':
+				if (parStack.empty())
+					return false;
+				else{
+					if (parStack.top() == '('){
+						parStack.pop();
+						break;
+					}
+					else
+						return false;
+				}
+			case '}':
+				if (parStack.empty())
+					return false;
+				else{
+					if (parStack.top() == '{'){
+						parStack.pop();
+						break;
+					}
+					else
+						return false;
+				}
+			case ']':
+				if (parStack.empty())
+					return false;
+				else{
+					if (parStack.top() == '['){
+						parStack.pop();
+						break;
+					}
+					else
+						return false;
+				}
+			default:
+				break;
+			}
+		}
+		return parStack.empty(); //此处应判断是否为空
+	}
+};
+
+/*21. Merge Two Sorted Lists
+Merge two sorted linked lists and return it as a new list.The new list should be made by splicing together the nodes of the first two lists.*/
+class Solution21 {
+public:
+	ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) { //l3指向每次一比较的较小结点，和归并排序类似
+		ListNode* l3 = new ListNode(-1); //该结点临时的，第二个结点才是目标list头
+		ListNode* head = l3;
+		while (l1 && l2) {
+			if (l1->val < l2->val) {
+				l3->next = l1;
+				l1 = l1->next;
+			}
+			else{
+				l3->next = l2;
+				l2 = l2->next;
+			}
+			l3 = l3->next;
+			l3->next = NULL;
+		}
+
+		l3->next = l1 ? l1 : l2;
+		ListNode* tmp = head;
+		head = head->next;
+		delete tmp;
+		return head;
+	}
+};
+
+/*23. Merge k Sorted Lists
+Merge k sorted linked lists and return it as one sorted list.Analyze and describe its complexity.
+将每个list的最小节点放入一个priority queue (min heap)中。之后每从queue中取出一个节点，则将该节点在其list中的下一个节点插入，以此类推直到全部节点都经过priority queue。由于priority queue的大小为始终为k，而每次插入的复杂度是log k，一共插入过nk个节点。时间复杂度为O(nk logk)，空间复杂度为O(k)。
+注意C++的STL中的priority queue默认是max heap，定义一个新的比较函数。*/
+class Solution23 {
+public:
+	struct cmp{
+		bool operator()(ListNode* l1, ListNode* l2) {
+			return (l1->val) > (l2->val);
+		}
+	};
+	ListNode* mergeKLists(vector<ListNode*>& lists) {
+		priority_queue<ListNode*, vector<ListNode*>, cmp> pq;
+		ListNode *dummy = new ListNode(-1);
+		ListNode *tail = dummy;
+		for (int i = 0; i < lists.size(); ++i) {
+			if (lists[i])
+				pq.push(lists[i]);
+		}
+
+		while (!pq.empty()) {
+			dummy->next = pq.top();
+			pq.pop();
+			dummy = dummy->next;
+			if (dummy->next)
+				pq.push(dummy->next);
+		}
+		ListNode *tmp = tail;
+		delete tmp;
+		tail = tail->next;
+		return tail;
+	}
+};
+
+
+class Solution24 {
+public:
+	ListNode* init() {
+
+		ListNode* p = new ListNode(1);
+		ListNode* q = p;
+		for (int i = 2; i < 4; ++i)
+		{
+			p->next = new ListNode(i);
+			p = p->next;
+		}
+		return q;
+		return p;
+	}
+	void swapNode(int *a, int *b) {
+		int tmp = *a;
+		*a = *b;
+		*b = tmp;
+	}
+	ListNode* swapPairs(ListNode* head) {
+		ListNode* p = head;
+		ListNode* p1 = head;
+		ListNode* p2 = NULL;
+		if (!p1)
+			return NULL;
+		if (p1->next == NULL)
+			return p;
+		else
+			p2 = p1->next;
+
+		while (p1 && p2) {
+			swapNode(&p1->val, &p2->val);
+			p1 = p2->next;
+			p2 = p1->next;
+		}
+		return p;
 	}
 };
