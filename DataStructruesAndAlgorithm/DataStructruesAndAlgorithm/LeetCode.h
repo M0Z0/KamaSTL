@@ -940,7 +940,11 @@ public:
 	}
 };
 
-
+/*24. Swap Nodes in Pairs
+Given a linked list, swap every two adjacent nodes and return its head.
+For example,
+Given 1->2->3->4, you should return the list as 2->1->4->3.
+Your algorithm should use only constant space.You may not modify the values in the list, only nodes itself can be changed.*/
 class Solution24 {
 public:
 	ListNode* init() {
@@ -977,5 +981,41 @@ public:
 			p2 = p1->next;
 		}
 		return p;
+	}
+};
+
+class Solution26 {
+public:
+	int removeDuplicates(vector<int>& nums) {
+		int j = 0;
+		for (int i = 0; i < nums.size();) {
+			j = i + 1;
+			if (j < nums.size()) {
+				if (nums[i] == nums[j]) {
+					nums.erase(nums.begin() + j);
+				}
+				else{
+					++i;
+				}
+			}
+			else{
+				break;
+			}
+		}
+		return nums.size();
+	}
+};
+
+class Solution27 {
+public:
+	int removeElement(int* nums, int numsSize, int val) {
+		int left = 0, right = numsSize - 1;
+		while (left <= right) {
+			if (nums[left] == val)
+				nums[left] = nums[right--];
+			else
+				left++;
+		}
+		return right + 1;
 	}
 };
