@@ -5,6 +5,8 @@
 #include <map>
 #include <stack>
 #include <queue> 
+#include <map>
+#include <unordered_map>
 using namespace std;
 /*
 1. Two Sum
@@ -1006,6 +1008,12 @@ public:
 	}
 };
 
+
+/*直观解法是扫描数组，当遇到value时，将value右边所有元素向左移一格，直接到扫完所有数字。但这种解法在移动操作上的消耗是很大的，最差情况时间复杂度为O(n ^ 2)。
+
+由于数组元素顺序不需要维持，可以采取当遇到value时，用顺组尾部元素来填充。同样是双指针的技巧：left指针扫描数组，right指针表示当前数组的尾端。
+(1) A[left] = value时，A[left] = A[right], right--，但不能left++，因为也可能A[right] = value
+(2) A[left] != value时，left++*/
 class Solution27 {
 public:
 	int removeElement(int* nums, int numsSize, int val) {
@@ -1017,5 +1025,79 @@ public:
 				left++;
 		}
 		return right + 1;
+	}
+};
+
+/*
+28. Implement strStr()
+Implement strStr().
+Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.*/
+class Solution28 {
+public:
+	int strStr(char* haystack, char* needle) {
+		if (!*needle) return 0;
+		if (!*haystack) return -1;
+		int m = strlen(haystack), n = strlen(needle);
+
+		for (int i = 0; i <= m - n; i++) { //注意此处没有必要全部遍历
+			for (int j = 0; j <= n; j++) {
+				char *p1 = haystack + i + j;
+				char *p2 = needle + j;
+				if (!*p2) return i;
+				if (*p1 != *p2) break;
+			}
+		}
+		return -1;
+	}
+};
+
+/*You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+30. Substring with Concatenation of All Words
+For example, given:
+s: "barfoothefoobarman"
+words: ["foo", "bar"]
+
+You should return the indices: [0,9].
+(order does not matter).
+思路：
+
+和strStr那题的双指针解法类似。关键在于如何判断以任意i起始的S的substring是否整个L的concatenation。这里显然要用到hash table。由于L中可能存在重复的word，所以hash table的key = word，val = count of the word。
+
+在建立好L的hash table后，对每个S[i]进行检查。这里的一个技巧建立一个新的hash table记录已经找到的word。因为L的hash table需要反复利用，不能被修改，并且如果以hash table作为参数进行值传递的化，时间空间消耗都很大。
+*/
+class Solution30 {
+public:
+	vector<int> findSubstring(string s, vector<string>& words) {
+		vector<int> allPos;
+		if (words.empty())
+			return allPos;
+		int totalWords = words.size();
+		int wordSize = words[0].size();
+		int totalLen = totalWords * wordSize;
+		if (s.size() < totalLen)
+			return allPos;
+
+		unordered_map<string, int> wordCount;
+		for (int i = 0; i < totalWords; ++i)
+			wordCount[words[i]]++;
+
+		for (int i = 0; i <= s.size() - totalLen; i++) {
+			if (checkSubstring(s, i, wordCount, wordSize, totalWords))
+				allPos.push_back(i);
+		}
+		return allPos;
+	}
+
+	bool checkSubstring(string S, int start, unordered_map<string, int> &wordCount, int wordSize, int totalWords) {
+		if (S.size() - start + 1 < wordSize*totalWords) return false;
+		unordered_map<string, int> wordFound;
+
+		for (int i = 0; i<totalWords; ++i) {
+			string curStr = S.substr(start + i*wordSize, wordSize);
+			if (wordCount.count(curStr) == 0) return false;
+			wordFound[curStr]++;
+			if (wordFound[curStr] > wordCount[curStr]) return false;
+		}
+		return true;
 	}
 };

@@ -114,8 +114,6 @@ void main()
 	Solution26 s26;
 	int r26 = s26.removeDuplicates(v26);
 
-	vector<int> v27 = {3,3};
-	Solution27 s27;
-	int r27 = s27.removeElement(v27,3);
+
 	getchar();
 }
