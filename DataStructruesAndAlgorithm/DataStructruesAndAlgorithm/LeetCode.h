@@ -1130,3 +1130,272 @@ public:
 		return maxLen;
 	}
 };
+
+/*33. Search in Rotated Sorted Array
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+You are given a target value to search.If found in the array return its index, otherwise return -1.
+You may assume no duplicate exists in the array.*/
+class Solution33 {
+public:
+	int search(vector<int>& nums, int target) {
+		int start = 0, end = nums.size() - 1;
+		while (start <= end) {
+			int mid = start + (end - start) / 2;
+			if (nums[mid] == target) return mid;
+
+			if (nums[mid]<nums[end]) { // right half sorted
+				if (target>nums[mid] && target <= nums[end])
+					start = mid + 1;
+				else
+					end = mid - 1;
+			}
+			else {  // left half sorted
+				if (target >= nums[start] && target < nums[mid])
+					end = mid - 1;
+				else
+					start = mid + 1;
+			}
+		}
+		return -1;
+	}
+};
+
+/*34. Search for a Range
+Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.
+Your algorithm's runtime complexity must be in the order of O(log n).
+If the target is not found in the array, return[-1, -1].
+For example,
+Given[5, 7, 7, 8, 8, 10] and target value 8,
+return[3, 4].*/
+class Solution34 {
+public:
+	vector<int> searchRange(vector<int>& nums, int target) {
+		vector<int> range;
+		range.push_back(findLeftRange(nums, target));
+		range.push_back(findRightRange(nums, target));
+		return range;
+	}
+
+	int findLeftRange(vector<int>& nums, int target) {
+		int start = 0;
+		int end = nums.size() - 1;
+
+		while (start <= end) {
+			int mid = start + (end - start) / 2;
+			if (nums[mid] < target)
+				start = mid + 1;
+			else if (nums[mid] > target)
+				end = mid - 1;
+			else
+				end = mid - 1; //相同也往左移
+		}
+		if (start >= 0 && start < nums.size() && nums[start] == target)
+			return start;
+		return -1;
+	}
+
+	int findRightRange(vector<int>& nums, int target) {
+		int start = 0;
+		int end = nums.size() - 1;
+
+		while (start <= end) {
+			int mid = start + (end - start) / 2;
+			if (nums[mid] < target)
+				start = mid + 1;
+			else if (nums[mid] > target)
+				end = mid - 1;
+			else
+				start = mid + 1; //相同也往右移
+		}
+		if (end >= 0 && end < nums.size() && nums[end] == target)
+			return end;
+		return -1;
+	}
+};
+
+/*35. Search Insert Position
+Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You may assume no duplicates in the array.
+
+Here are few examples.
+[1,3,5,6], 5 → 2
+[1,3,5,6], 2 → 1
+[1,3,5,6], 7 → 4
+[1,3,5,6], 0 → 0
+
+思路：Binary search的变种。如果target存在于数组中，则binary search就能找到。关键在于target不在数组中，当binary search结束时：start > end时，究竟应该如何获得插入位置。这里考察的是对base case的分析。定义insertion index为p，两种base case情况：
+
+1. start = end = mid：
+a. target < A[mid]，则我们知道p = mid。
+binary search下一步会搜索A[start = mid : end = mid-1]而终止，在这一步应该返回start。
+b. 反之target > A[mid]，则我们知道p = mid+1。
+binary search下一步会搜索A[start = mid+1 : end = mid]而终止，这一步我们仍旧应该返回start。
+
+2. start = end-1 = mid：
+a. target < A[mid]，则我们知道p = mid。
+同1a情况，查找结束start > end时，返回start
+b. target > A[mid]，则我们知道p = mid+1或mid+2
+binary search下一步会搜索A[start = mid+1 : end = mid+1]，即base case 1的情况。
+
+综上所述，该问题的解法思路如下：
+1. Binary search整个数组，如果在start <= end时找到了target，返回mid
+2. 如果查找失败，即start > end，返回start即可。*/
+class Solution35 {
+public:
+	int searchInsert(vector<int>& nums, int target) {
+		if (nums.size() == 0)
+			return 0;
+		int l = 0;
+		int r = nums.size() - 1;
+		while (l <= r) {
+			int mid = (r + l) / 2;
+			if (nums[mid] == target)
+				return mid;
+			else if (nums[mid] < target)
+				l = mid + 1;
+			else if (nums[mid] > target)
+				r = mid - 1;
+		}
+		return l; //必须是l，l正好是找不到时的插入位置
+	}
+};
+
+
+class Solution38 {
+public:
+     string countAndSay(int n) {
+	        if (n < 1)return "";
+		       string prev = "1";
+		      for (int i = 2; i <= n; i++)
+			        {
+			            char curChar = prev[0];
+			             int times = 1;//curChar 出现的次数
+			             string tmpstr;
+			            prev.push_back('#');//处理边界条件
+			            for (int k = 1; k < prev.size(); k++)
+				             {
+				                if (prev[k] == curChar)
+				                    times++;
+				                 else
+					                {
+					                     tmpstr += to_string(times);
+					                    tmpstr.push_back(curChar);
+					                    curChar = prev[k];
+					                     times = 1;
+					               }
+				           }
+			           prev = tmpstr;
+			       }
+		         return prev;
+		
+	}
+};
+
+/*
+39. Combination Sum
+Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
+
+The same repeated number may be chosen from C unlimited number of times.
+
+Note:
+All numbers (including target) will be positive integers.
+The solution set must not contain duplicate combinations.
+For example, given candidate set [2, 3, 6, 7] and target 7,
+A solution set is:
+[
+[7],
+[2, 2, 3]
+]
+
+思路：递归
+
+和3 sum那题很像，如果选定一个candidates[i]，则需要继续寻找和为target-candidate[i]的combination。由于candidates和target都为正数，当和超过或等于target时，查找中止。与3sum的思路一样，对candidate排序，并且每层递归扫描的时候需要做到去重复解：
+1. 不回头扫，在扫描candidates[i]时，对candidate[i: n-1]递归查找target-candidates[i]。
+2. 每层扫描的时候跳过重复的candidates。*/
+class Solution39 {
+public:
+	vector<vector<int> > combinationSum(vector<int> &candidates, int target) {
+		vector<vector<int> > allSol;
+		vector<int> sol;
+		if (candidates.empty()) return allSol;
+		sort(candidates.begin(), candidates.end());
+		findCombSum(candidates, 0, target, sol, allSol);
+		return allSol;
+	}
+
+	void findCombSum(vector<int> &candidates, int start, int target, vector<int> &sol, vector<vector<int>> &allSol) {
+		if (target == 0) {
+			allSol.push_back(sol);
+			return;
+		}
+
+		for (int i = start; i<candidates.size(); i++) {
+			if (i>start && candidates[i] == candidates[i - 1]) continue;
+			if (candidates[i] <= target) {
+				sol.push_back(candidates[i]);
+				findCombSum(candidates, i, target - candidates[i], sol, allSol);
+				sol.pop_back();
+			}
+		}
+	}
+};
+
+/*
+41. First Missing Positive
+Given an unsorted integer array, find the first missing positive integer.
+
+For example,
+Given [1,2,0] return 3,
+and [3,4,-1,1] return 2.
+
+Your algorithm should run in O(n) time and uses constant space.*/
+class Solution41 {
+public:
+	int firstMissingPositive(vector<int>& nums) {
+		int len = nums.size();
+		int i = 0;
+		while (i < len) {
+			if (nums[i] != i - 1 && nums[i]>0 && nums[i] <= len && nums[i] != nums[nums[i] - 1])
+				std::swap(nums[nums[i] - 1], nums[i]);
+			else
+				++i;
+		}
+
+		for (int j = 0; j < len; ++j) {
+			if (nums[j] != j + 1)
+				return j + 1;
+		}
+		return len + 1;
+	}
+};
+
+class Solution43 {
+public:
+	string multiply(string num1, string num2) {
+		if (num1.empty() || num2.empty())
+			return "";
+		reverse(num1.begin(), num1.end());
+		reverse(num2.begin(), num2.end());
+		string ret(num1.size() + num2.size(), '0');
+
+		for (int i = 0; i < num1.size(); ++i) {
+			int val = num1[i] - '0';
+			int carry = 0;
+			for (int j = 0; j < num2.size(); ++j) {
+				carry += (val*(num2[j] - '0') + (ret[i + j] - '0'));
+				ret[i + j] = carry % 10 + '0';
+				carry /= 10;
+			}
+			if (carry != 0)
+				ret[num2.size() + i] = carry + '0';
+		}
+		reverse(ret.begin(), ret.end());
+
+		int count = 0;
+		while (count < ret.size() - 1 && ret[count] == '0') count++;
+		ret.erase(0, count);
+		return ret;
+	}
+};

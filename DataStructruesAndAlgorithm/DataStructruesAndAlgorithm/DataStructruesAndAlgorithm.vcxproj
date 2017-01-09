@@ -88,6 +88,7 @@
     <ClInclude Include="LeetCode.h" />
     <ClInclude Include="Sort.h" />
     <ClInclude Include="LeftHeap.h" />
+    <ClInclude Include="test.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BinHeap.cpp" />

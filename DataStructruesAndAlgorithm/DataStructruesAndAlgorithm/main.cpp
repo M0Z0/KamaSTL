@@ -4,6 +4,7 @@
 #include "Sort.h"
 #include <iostream>
 #include "LeetCode.h"
+#include "test.h"
 
 void main()
 {
@@ -114,6 +115,19 @@ void main()
 	Solution26 s26;
 	int r26 = s26.removeDuplicates(v26);
 
+	vector<int> v33 = {3,4,5,6,7,8,1,2};
+	Solution33 s33;
+	int r33 = s33.search(v33, 1);
 
+	vector<int> v34 = {};
+	Solution34 s34;
+	vector<int> r34 = s34.searchRange(v34, 0);
+
+	Solution39 s39;
+	vector<int> v39 = {2,3,6,7};
+	vector<vector<int>> r39 = s39.combinationSum(v39, 7);
+
+	Solution43 s43;
+	string r43 = s43.multiply("87", "3245");
 	getchar();
 }
