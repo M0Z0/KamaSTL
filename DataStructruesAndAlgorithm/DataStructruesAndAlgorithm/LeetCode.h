@@ -1371,6 +1371,38 @@ public:
 	}
 };
 
+
+/*43. Multiply Strings
+Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2.
+
+Note:
+
+The length of both num1 and num2 is < 110.
+Both num1 and num2 contains only digits 0-9.
+Both num1 and num2 does not contain any leading zero.
+You must not use any built-in BigInteger library or convert the inputs to integer directly.
+
+思路：
+
+做过Plus One，Add Binary等题后，这类按位运算的题就是一个葫芦里的药了。按照最原始的按位相乘，最后移位相加的法则来计算。
+
+3 2 1
+x       4 3
+_______
+9 6 3
+1 2 8 4
+_______
+1 3 8 0 3
+
+注意：
+1. m位的数字乘以n位的数字的结果最大为m+n位：
+999*99 < 1000*100 = 100000，最多为3+2 = 5位数。
+2. 先将字符串逆序便于从最低位开始计算。
+注意：
+1. 首先要注意num1[i] * num2[j]的结果应该加到ret[i+j]的位置上。
+2. 其次要注意ln 17不能遗漏最高位的进位，由于此时ret中该位为0，所以只需要将carry转为字符即可。
+3. 最容易遗漏的corner case是ln 22-24。如999*0 = 0000，此时需要去掉开始的0，但又需要保留最后一个0。
+*/
 class Solution43 {
 public:
 	string multiply(string num1, string num2) {
@@ -1397,5 +1429,65 @@ public:
 		while (count < ret.size() - 1 && ret[count] == '0') count++;
 		ret.erase(0, count);
 		return ret;
+	}
+};
+
+/*
+46. Permutations*/
+class Solution46 {
+public:
+	vector<vector<int>> permute(vector<int>& nums) {
+		vector<vector<int>> allPer;
+		if (nums.empty())
+			return allPer;
+		vector<int> per;
+		vector<bool> used(nums.size(), false);
+		findPermute(nums, per, used, allPer);
+		return allPer;
+	}
+
+	void findPermute(vector<int>& nums, vector<int>& per, vector<bool>& used, vector<vector<int>>& allPer) {
+		if (per.size() == nums.size()) {
+			allPer.push_back(per);
+			return;
+		}
+
+		for (int i = 0; i < nums.size(); ++i) {
+			if (used[i] == true)
+				continue;
+			used[i] = true;
+			per.push_back(nums[i]);
+			findPermute(nums, per, used, allPer);
+			used[i] = false;
+			per.pop_back();
+		}
+	}
+};
+
+
+class Solution49 {
+public:
+	vector<vector<string>> groupAnagrams(vector<string>& strs) {
+		vector<vector<string>> allStrs;
+		vector<string> per;
+		//if(strs.size()==0)
+		//    return allStrs;
+
+		unordered_map<string, vector<int>> map;
+		for (int i = 0; i<strs.size(); ++i) {
+			string s = strs[i];
+			std::sort(s.begin(), s.end());
+			map[s].push_back(i);
+		}
+
+		for (unordered_map<string, vector<int>>::iterator it = map.begin(); it != map.end(); ++it) {
+			if (it->second.size()>0) {
+				for (int i = 0; i < it->second.size(); i++) {
+					per.push_back(strs[it->second[i]]);
+				}
+				allStrs.push_back(per);
+			}
+		}
+		return allStrs;
 	}
 };

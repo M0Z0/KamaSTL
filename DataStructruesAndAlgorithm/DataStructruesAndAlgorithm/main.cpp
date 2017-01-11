@@ -129,5 +129,14 @@ void main()
 
 	Solution43 s43;
 	string r43 = s43.multiply("87", "3245");
+
+	Solution46 s46;
+	vector<int> v46 = { 1,2,3 };
+	vector<vector<int>> r46 = s46.permute(v46);
+
+	Solution49 s49;
+	vector<string> v49 = { "eat", "tea", "tan", "ate", "nat", "bat" };
+	//vector<string> v49 = { "" };
+	vector<vector<string>> r49 = s49.groupAnagrams(v49);
 	getchar();
 }
