@@ -1464,14 +1464,27 @@ public:
 	}
 };
 
+/*49. Group Anagrams
+Given an array of strings, group anagrams together.
 
+For example, given: ["eat", "tea", "tan", "ate", "nat", "bat"],
+Return:
+
+[
+["ate", "eat","tea"],
+["nat","tan"],
+["bat"]
+]
+
+Anagrams指几个string有相同的字符，但不同的字符顺序。所以一个有效的检查方法是：当两个string排序以后相同，
+则它们是anagrams。可以使用一个hash table，string s的key是它自己排序后的string，这样anagrams会有相同的key。
+用一个vector<int>来记录相同key的string在input vector<string>中的index。最后扫描一遍hash table，当有两个或以上string有相同的key时，
+将它们输出到结果。*/
 class Solution49 {
 public:
 	vector<vector<string>> groupAnagrams(vector<string>& strs) {
 		vector<vector<string>> allStrs;
 		vector<string> per;
-		//if(strs.size()==0)
-		//    return allStrs;
 
 		unordered_map<string, vector<int>> map;
 		for (int i = 0; i<strs.size(); ++i) {
@@ -1487,7 +1500,30 @@ public:
 				}
 				allStrs.push_back(per);
 			}
+			per.clear();
 		}
 		return allStrs;
+	}
+};
+
+/*50. Pow(x, n)
+Implement pow(x, n).
+
+递归公式为：x^n = x^(n/2) * x^(n/2) * x^(n%2)*/
+class Solution50 {
+public:
+	double pow(double x, int n) {
+		if (n >= 0)
+			return powPositive(x, n);
+		else
+			return 1 / powPositive(x, -n);
+	}
+
+	double powPositive(double x, int n) {
+		if (n == 0) return 1; // base case
+		double res = powPositive(x, n / 2);
+		res *= res;
+		if (n % 2) res *= x;
+		return res;
 	}
 };

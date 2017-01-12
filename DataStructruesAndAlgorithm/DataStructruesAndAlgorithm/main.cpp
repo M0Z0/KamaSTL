@@ -138,5 +138,8 @@ void main()
 	vector<string> v49 = { "eat", "tea", "tan", "ate", "nat", "bat" };
 	//vector<string> v49 = { "" };
 	vector<vector<string>> r49 = s49.groupAnagrams(v49);
+
+	Solution50 s50;
+	double r50 = s50.pow(2, 4);
 	getchar();
 }
