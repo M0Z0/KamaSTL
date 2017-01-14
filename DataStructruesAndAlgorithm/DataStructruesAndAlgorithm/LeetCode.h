@@ -1527,3 +1527,167 @@ public:
 		return res;
 	}
 };
+
+/*
+51. N-Queens
+The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that no two queens attack each other.
+Given an integer n, return all distinct solutions to the n-queens puzzle.
+
+Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space respectively.
+
+For example,
+There exist two distinct solutions to the 4-queens puzzle:
+
+[
+[".Q..",  // Solution 1
+"...Q",
+"Q...",
+"..Q."],
+
+["..Q.",  // Solution 2
+"Q...",
+"...Q",
+".Q.."]
+]
+
+
+思路：
+经典8皇后问题的推广版n皇后问题。两题其实是一回事，I的难度反而更大一些。因为能解I得到所有解，必然能知道一共几个解从而能解II。
+同样也是类似DFS的backtracking问题。难点在于如何判断当前某一位置是否可以放皇后，需要通过之前所有放置过的皇后位置来判断。
+对已经放置的任意皇后，需要判断当前位置是否在同一行、列、对角线上这三个条件。
+1. 逐行放置皇后：排除在同一行的可能。
+2. 记录之前所放皇后的列坐标：col[i]=j表示第i行的皇后在第j列。这样在放置第i+1行时，只要保证col[i+1] != col[k], k=0...i 即可。
+3. 对角线判断：对于任意(i1, col[i1])和(i2, col[i2])，只有当abs(i1-i2) = abs(col[i1]-col[i2])时，两皇后才在同一对角线。*/
+class Solution51 {
+public:
+	vector<vector<string>> solveNQueens(int n) {
+		vector<vector<string>> allSol;
+		vector<string> sol;
+		vector<int> col;
+		solveNQ(n, 0, col, sol, allSol);
+		return allSol;
+	}
+
+	void solveNQ(int n, int irow, vector<int> &col, vector<string> &sol, vector<vector<string>> &allSol) {
+		if (n == irow) {
+			allSol.push_back(sol);
+			return;
+		}
+
+		for (int icol = 0; icol < n; ++icol) {
+			if (validPos(col, irow, icol)) {
+				string s(n, '.');
+				s[icol] = 'Q';
+				sol.push_back(s);
+				col.push_back(icol);
+				solveNQ(n, irow + 1, col, sol, allSol);
+				sol.pop_back();
+				col.pop_back();
+			}
+		}
+	}
+
+	bool validPos(vector<int> &col, int irow, int icol) {
+		for (int i = 0; i < col.size(); ++i) {
+			if (icol == col[i] || abs(irow - i) == abs(icol - col[i]))
+				return false;
+		}
+		return true;
+	}
+};
+
+/*
+52. N-Queens II
+Follow up for N-Queens problem.
+
+Now, instead outputting board configurations, return the total number of distinct solutions.
+同上一题（51.N-Queens）*/
+class Solution52 {
+public:
+	int totalNQueens(int n) {
+		vector<int> col;
+		int totSol = 0;
+		solveNQ(n, 0, col, totSol);
+		return totSol;
+	}
+
+	void solveNQ(int n, int irow, vector<int> &col, int &totSol) {
+		if (irow == n) {
+			totSol++;
+			return;
+		}
+
+		for (int icol = 0; icol < n; icol++) {
+			if (validPos(col, irow, icol)) {
+				col.push_back(icol);
+				solveNQ(n, irow + 1, col, totSol);
+				col.pop_back();
+			}
+		}
+	}
+
+	bool validPos(vector<int> &col, int irow, int icol) {
+		if (irow < col.size()) return false;
+		for (int i = 0; i < col.size(); i++) {
+			if (icol == col[i] || abs(irow - i) == abs(icol - col[i]))
+				return false;
+		}
+		return true;
+	}
+};
+
+/*
+53. Maximum Subarray
+Find the contiguous subarray within an array (containing at least one number) which has the largest sum.
+
+For example, given the array [-2,1,-3,4,-1,2,1,-5,4],
+the contiguous subarray [4,-1,2,1] has the largest sum = 6.
+
+思路：dp
+状态转移方程： sum[i]=max(sum[i-1]+a[i],a[i])*/
+class Solution53 {
+public:
+	int maxSubArray(vector<int>& nums) {
+		int len = nums.size();
+		if (len <= 0) return 0;
+		int maxSum = nums[0];
+		int curSum = nums[0];
+		for (int i = 1; i < len; ++i) {
+			if (curSum <= 0)
+				curSum = nums[i]; //如果前面位置最大连续子序列和小于等于0，则以当前位置i结尾的最大连续子序列和为a[i]
+			else
+				curSum += nums[i]; //如果前面位置最大连续子序列和大于0，则以当前位置i结尾的最大连续子序列和为它们两者之和 
+			maxSum = max(maxSum, curSum);
+		}
+		return maxSum;
+	}
+};
+
+/*
+55. Jump Game
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
+
+Each element in the array represents your maximum jump length at that position.
+
+Determine if you are able to reach the last index.
+
+思路：Jump Game I
+
+注意题目中A[i]表示的是在位置i，“最大”的跳跃距离，而并不是指在位置i只能跳A[i]的距离。所以当跳到位置i后，
+能达到的最大的距离至少是i+A[i]。用greedy来解，记录一个当前能达到的最远距离maxIndex：
+
+1. 能跳到位置i的条件：i<=maxIndex。
+2. 一旦跳到i，则maxIndex = max(maxIndex, i+A[i])。
+3. 能跳到最后一个位置n-1的条件是：maxIndex >= n-1
+*/
+class Solution55 {
+public:
+	bool canJump(int A[], int n) {
+		int maxIndex = 0;
+		for (int i = 0; i<n; i++) {
+			if (i>maxIndex || maxIndex >= (n - 1)) break;
+			maxIndex = max(maxIndex, i + A[i]);
+		}
+		return maxIndex >= (n - 1) ? true : false;
+	}
+};

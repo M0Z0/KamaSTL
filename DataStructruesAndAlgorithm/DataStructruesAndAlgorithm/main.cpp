@@ -141,5 +141,9 @@ void main()
 
 	Solution50 s50;
 	double r50 = s50.pow(2, 4);
+
+	Solution55 s55;
+	int v55[] = { 3, 2, 1, 0, 4 };
+	int r55 = s55.canJump(v55,5);
 	getchar();
 }
