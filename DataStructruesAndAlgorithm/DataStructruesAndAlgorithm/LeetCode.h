@@ -1691,3 +1691,77 @@ public:
 		return maxIndex >= (n - 1) ? true : false;
 	}
 };
+
+
+/*57. Insert Interval
+Wednesday, November 26, 2014
+[LeetCode] Insert Interval
+Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
+You may assume that the intervals were initially sorted according to their start times.
+Example 1:
+Given intervals [1,3],[6,9], insert and merge [2,5] in as [1,5],[6,9].
+Example 2:
+Given [1,2],[3,5],[6,7],[8,10],[12,16], insert and merge [4,9] in as [1,2],[3,10],[12,16].
+This is because the new interval [4,9] overlaps with [3,5],[6,7],[8,10].
+
+思路：
+
+题目涉及两个问题：
+1. 如何判断两个interval有重合。
+2. 如果重合，如何合并。
+3. 如何判断[s1, e1]是否在[s2, e2]前面
+
+A1. 两个interval有重合有很多种可能性，但判断它们不重合则比较简单直观。无非两种情况：
+
+(1) [s1, e1]  [s2, e2]：即s2>e1
+(2) [s2, e2]  [s1, e1]：即s1>e2
+
+不重合的条件为：s2>e1 || s1>e2，反之则重合。
+
+A2. 对于两个有重合的interval： [s1, e1]，[s2, e2]。合并后变为[min(s1,s2), max(e1,e2)]。
+
+A3. [s1, e1]在[s2, e2]前面的条件：e1<s2
+
+所以插入interval a的算法为：扫描队列中每个interval I[i]：
+如果a已经被插入了，则只要插入I(i)就行。
+如果a在I(i)前，则先插入a再插入I(i)到结果。
+如果a和I(i)有重合，则将I(i)合并入a，但并不插入结果。
+如果a在I(i)后，则插入I(i)到结果。*/
+ struct Interval {
+     int start;
+     int end;
+     Interval() : start(0), end(0) {}
+     Interval(int s, int e) : start(s), end(e) {}
+ };
+
+class Solution57 {
+public:
+	vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {
+		vector<Interval> ret;
+		bool bInserted = false;
+		for (int i = 0; i < intervals.size(); ++i) {
+			if (bInserted) {
+				ret.push_back(intervals[i]);
+				continue;
+			}
+
+			if (newInterval.end < intervals[i].start) {
+				ret.push_back(newInterval);
+				ret.push_back(intervals[i]);
+				bInserted = true;
+				continue;
+			}
+
+			// combine newInterval with current interval
+			if (newInterval.start <= intervals[i].end && intervals[i].start <= newInterval.end) {
+				newInterval.start = min(newInterval.start, intervals[i].start);
+				newInterval.end = max(newInterval.end, intervals[i].end);
+				continue;
+			}
+
+			ret.push_back(intervals[i]);
+		}
+		if (!bInserted) ret.push_back(newInterval);
+		return ret;
+	}
+};
