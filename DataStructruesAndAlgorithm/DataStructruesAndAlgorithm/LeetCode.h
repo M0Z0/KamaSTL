@@ -19,6 +19,8 @@ Given nums = [2, 7, 11, 15], target = 9,
 
 Because nums[0] + nums[1] = 2 + 7 = 9,
 return[0, 1].
+
+先排序，然后两个指针分头在头尾，指向元素和大于target就尾指针减一，否则头指针加一
 */
 
 class Solution1 {
@@ -69,10 +71,10 @@ public:
 };
 
 /*2. Add Two Numbers
-Add to List QuestionEditorial Solution  My Submissions
 You are given two linked lists representing two non - negative numbers.The digits are stored in reverse order and each of their nodes contain a single digit.Add the two numbers and return it as a linked list.
 Input : (2 -> 4 -> 3) + (5 -> 6 -> 4)
 Output : 7 -> 0 -> 8
+注意进位
 */
 struct ListNode {
 	int val;
@@ -134,7 +136,8 @@ Given a string, find the length of the longest substring without repeating chara
 Examples:
 Given "abcabcbb", the answer is "abc", which the length is 3.
 Given "bbbbb", the answer is "b", with the length of 1.
-Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.*/
+Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
+思路：头尾指针，没出现过就尾指针加一，否则头指针加一，重置尾指针*/
 
 int lengthOfLongestSubstring(char* s) {
 	if (strlen(s) == 0)
@@ -167,6 +170,23 @@ int lengthOfLongestSubstring(char* s) {
 	return (--max);
 }
 
+/*4. Median of Two Sorted Arrays
+There are two sorted arrays nums1 and nums2 of size m and n respectively.
+
+Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
+
+Example 1:
+nums1 = [1, 3]
+nums2 = [2]
+
+The median is 2.0
+Example 2:
+nums1 = [1, 2]
+nums2 = [3, 4]
+
+The median is (2 + 3)/2 = 2.5
+思路：
+先归并排序，然后算出中间值*/
 class Solution4 {
 public:
 	double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
@@ -487,6 +507,20 @@ public:
 			}
 		}
 		return ret;
+	}
+
+	bool isPalindromeC(int x) {
+		if (x < 0) return false;
+		int y = 1;
+		while (x / y >= 10)
+			y *= 10;
+
+		while (x) {
+			if (x / y != x % 10) return false;
+			x = (x % y) / 10;
+			y /= 100;
+		}
+		return true;
 	}
 };
 
@@ -1763,5 +1797,56 @@ public:
 		}
 		if (!bInserted) ret.push_back(newInterval);
 		return ret;
+	}
+};
+
+/*59. Spiral Matrix II
+Given an integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+
+For example,
+Given n = 3,
+
+You should return the following matrix:
+[
+[ 1, 2, 3 ],
+[ 8, 9, 4 ],
+[ 7, 6, 5 ]
+]*/
+class Solution59 {
+public:
+	vector<vector<int>> generateMatrix(int n) {
+		vector<vector<int>> ret(n, vector<int>(n, 0));
+		int count = n / 2;
+		int val = 1;
+		for (int i = 0; i < count; ++i) {
+			int last = n - 1 - i;
+			for (int j = i; j<last; j++)
+				ret[i][j] = val++;
+			for (int j = i; j<last; j++)
+				ret[j][last] = val++;
+			for (int j = last; j>i; j--)
+				ret[last][j] = val++;
+			for (int j = last; j>i; j--)
+				ret[j][i] = val++;
+		}
+		if (n % 2 == 1)
+			ret[n / 2][n / 2] = val;
+		return ret;
+	}
+};
+
+
+class Solution62 {
+public:
+	int uniquePaths(int m, int n) {
+		if (m < 1 && n < 1)
+			return 0;
+		vector<vector<int> > dp(m, vector<int>(n, 1));
+		for (int i=1; i < m; ++i) {
+			for (int j=1; j < n; ++j) {
+				dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+			}
+		}
+		return dp[m - 1][n - 1];
 	}
 };

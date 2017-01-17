@@ -145,5 +145,8 @@ void main()
 	Solution55 s55;
 	int v55[] = { 3, 2, 1, 0, 4 };
 	int r55 = s55.canJump(v55,5);
+
+	Solution62 s62;
+	int r62 = s62.uniquePaths(6, 3);
 	getchar();
 }
