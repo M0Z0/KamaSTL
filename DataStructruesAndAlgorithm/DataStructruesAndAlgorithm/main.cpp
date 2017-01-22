@@ -148,5 +148,29 @@ void main()
 
 	Solution62 s62;
 	int r62 = s62.uniquePaths(6, 3);
+
+	int quick[] = { 5, 3, 7, 12, 0, 34, 6, 9, 12, 21, 33, -3, -9 };
+	SORT::QuickSortTest(quick, 0, 12);
+	//for (int i = 0; i < 13; ++i)
+	//	std::cout << quick[i] << std::endl;
+
+	Solution64 s64;
+	vector<int> s641 = { 1,2,3 };
+	vector<int> s642 = { 4,5,6 };
+	vector<int> s643 = { 7,8,9 };
+	vector<vector<int> > s644;
+	s644.push_back(s641);
+	s644.push_back(s642);
+	s644.push_back(s643);
+	//vector<string> v49 = { "" };
+	int r64 = s64.minPathSum(s644);
+
+	Solution66 s66;
+	vector<int> v66 = { 9, 9 };
+	vector<int> ret66 = s66.plusOne(v66);
+
+	Solution70 s70;
+	int ret70 = s70.climbStairs(10);
+
 	getchar();
 }

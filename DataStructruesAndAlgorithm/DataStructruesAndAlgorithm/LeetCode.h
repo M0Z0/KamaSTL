@@ -1835,11 +1835,21 @@ public:
 	}
 };
 
+/*62. Unique Paths
+A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
 
+The robot can only move either down or right at any point in time. The robot is trying to reach the bottom-right corner of the grid (marked 'Finish' in the diagram below).
+
+How many possible unique paths are there?
+
+思路：要保存子问题的状态，动态规划方法，设dp[i][j] = uniquePaths(i, j)， 那么动态规划方程为：
+
+dp[i][j] = dp[i-1][j] + dp[i][j-1]
+边界条件：dp[i][1] = 1, dp[1][j] = 1*/
 class Solution62 {
 public:
 	int uniquePaths(int m, int n) {
-		if (m < 1 && n < 1)
+		if (m < 1 || n < 1)
 			return 0;
 		vector<vector<int> > dp(m, vector<int>(n, 1));
 		for (int i=1; i < m; ++i) {
@@ -1848,5 +1858,152 @@ public:
 			}
 		}
 		return dp[m - 1][n - 1];
+	}
+};
+
+/*64. Minimum Path Sum
+Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right which minimizes the sum of all numbers along its path.
+
+Note: You can only move either down or right at any point in time.
+
+思路：
+二维DP。设数组A[row][col],
+Min[i][j] = min(Min[i-1][j], Min[i][j-1]) +A[i][j];
+注意初始条件即可。边界值*/
+class Solution64 {
+public:
+	int minPathSum(vector<vector<int> > &grid) {
+		int row = grid.size();
+		int col;
+		if (row == 0)
+			return 0;
+		else
+			col = grid[0].size();
+		vector<vector<int> > dpMin(col, vector<int>(row, INT_MAX));
+		dpMin[0][0] = grid[0][0];
+		for (int i = 1; i < row; i++)
+		{
+			dpMin[i][0] = dpMin[i - 1][0] + grid[i][0];
+		}
+		for (int i = 1; i < col; i++)
+		{
+			dpMin[0][i] = dpMin[0][i - 1] + grid[0][i];
+		}
+		for (int i = 1; i < row; ++i) {
+			for (int j = 1; j < col; ++j) {
+				dpMin[i][j] = min(dpMin[i - 1][j], dpMin[i][j - 1]) + grid[i][j];
+			}
+		}
+		return dpMin[row - 1][col - 1];
+	}
+};
+
+/*66. Plus One
+Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
+You may assume the integer do not contain any leading zero, except the number 0 itself.
+The digits are stored such that the most significant digit is at the head of the list.*/
+class Solution66 {
+public:
+	vector<int> plusOne(vector<int> &digits) {
+		int n = digits.size();
+		for (int i = n - 1; i >= 0; --i) {
+			if (digits[i] == 9) digits[i] = 0;
+			else {
+				digits[i] += 1;
+				return digits;
+			}
+		}
+		if (digits.front() == 0) digits.insert(digits.begin(), 1);
+		return digits;
+	}
+};
+
+/*Sqrt(x)
+Implement int sqrt(int x).
+
+Compute and return the square root of x.二分查找*/
+
+class Solution69 {
+public:
+	int mySqrt(int x) {
+		if (x <= 1) return x;
+		int start = 0;
+		int end = x;
+		int mid = 0;
+		while (start <= end) {
+			mid = (start + end) / 2;
+			if (x / mid == mid)
+				return mid;
+			else if (x / mid > mid)
+				start = mid + 1;
+			else
+				end = mid - 1;
+		}
+		return end;
+	}
+};
+
+
+class Solution70 {
+public:
+	int climbStairs(int n) {
+		vector<int> dp(n, 1);
+		if (n <= 0)
+			return 0;
+		else if (n == 1)
+			return 1;
+		else if (n == 2)
+			return 2;
+		else
+		{
+			dp[1] = 2;
+		}
+		int i = 0;
+		for (i = 2; i < n; ++i) {
+			dp[i] = dp[i - 2] + dp[i - 1];
+		}
+		return dp[i - 1];
+	}
+};
+
+/*77. Combinations
+Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+
+For example,
+If n = 4 and k = 2, a solution is:
+
+[
+[2,4],
+[3,4],
+[2,3],
+[1,2],
+[1,3],
+[1,4],
+]*/
+
+class Solution77 {
+public:
+	vector<vector<int>> combine(int n, int k) {
+		vector<vector<int>> ret;
+		vector<int> cur;
+
+		DFS(ret, cur, n, k, 1);
+		return ret;
+	}
+
+	void DFS(vector<vector<int>> &ret, vector<int> &cur, int n, int k, int level) {
+		if (cur.size() == k) {
+			ret.push_back(cur);
+			return;
+		}
+		if (cur.size() > k) {
+			return;
+		}
+
+		for (int i = level; i <= n; ++i) {
+			cur.push_back(i);
+			DFS(ret, cur, n, k, i + 1);
+			cur.pop_back();
+		}
 	}
 };

@@ -22,6 +22,18 @@ namespace SORT
 		return A;
 	}
 
+	int* insertSortTwo(int a[], int len) {
+		for (int i = 1; i < len; ++i)
+		{
+			int tmp = a[i];
+			for (int j = i; j > 0 && a[j - 1] > tmp; --j)
+			{
+				std::swap(a[j - 1], a[j]);
+			}
+		}
+		return a;
+	}
+
 	int* ShellSort(int A[], int N)
 	{
 		int i, j, increment;
@@ -171,6 +183,34 @@ namespace SORT
 			QuickSort(s, i+1, r);
 		}
 	}
+
+	void QuickSortTest(int *s, int l, int r)
+	{
+		if (l < r)
+		{
+			//Swap(s[l], s[(l + r) / 2]); //将中间的这个数和第一个数交换
+			int i = l, j = r, x = s[l];
+			while (i < j)
+			{
+				while (i < j&&s[j] > x)// 从右向左找第一个小于x的数 注：此处>,下一个循环<=
+					j--;
+				if (i < j)
+					s[i++] = s[j];
+
+				while (i < j&&s[i] <= x)// 从左向右找第一个大于等于x的数
+					i++;
+				if (i < j)
+					s[j--] = s[i];
+			}
+			s[i] = x;//退出时，i等于j。将x填到这个坑中。 
+			QuickSortTest(s, l, i - 1);// 递归调用
+			QuickSortTest(s, i + 1, r);
+
+		}
+	}
+
+
+
 
 }
 
