@@ -172,5 +172,9 @@ void main()
 	Solution70 s70;
 	int ret70 = s70.climbStairs(10);
 
+	Solution78 s78;
+	vector<int> s78in = { 1, 2, 3 };
+	vector<vector<int>>ret78 = s78.subsets(s78in);
+
 	getchar();
 }

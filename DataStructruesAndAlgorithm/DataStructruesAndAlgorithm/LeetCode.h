@@ -1943,7 +1943,13 @@ public:
 	}
 };
 
+/*70. Climbing Stairs
+You are climbing a stair case. It takes n steps to reach to the top.
 
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+Note: Given n will be a positive integer.
+思路：动态规划*/
 class Solution70 {
 public:
 	int climbStairs(int n) {
@@ -1979,7 +1985,8 @@ If n = 4 and k = 2, a solution is:
 [1,2],
 [1,3],
 [1,4],
-]*/
+]
+回溯问题*/
 
 class Solution77 {
 public:
@@ -2003,6 +2010,46 @@ public:
 		for (int i = level; i <= n; ++i) {
 			cur.push_back(i);
 			DFS(ret, cur, n, k, i + 1);
+			cur.pop_back();
+		}
+	}
+};
+
+/*78. Subsets
+Given a set of distinct integers, nums, return all possible subsets.
+
+Note: The solution set must not contain duplicate subsets.
+
+For example,
+If nums = [1,2,3], a solution is:
+
+[
+[3],
+[1],
+[2],
+[1,2,3],
+[1,3],
+[2,3],
+[1,2],
+[]
+]
+回溯*/
+class Solution78 {
+public:
+	vector<vector<int>> subsets(vector<int>& nums) {
+		vector<vector<int>> retAll;
+		vector<int> cur;
+		retAll.push_back(cur);
+		sort(nums.begin(), nums.end());
+		findSubsets(retAll, 0, nums, cur);
+		return retAll;
+	}
+
+	void findSubsets(vector<vector<int>>& retAll, int start, vector<int>& S, vector<int>& cur) {
+		for (int i = start; i < S.size(); ++i) {
+			cur.push_back(S[i]);
+			retAll.push_back(cur);
+			findSubsets(retAll, i + 1, S, cur);
 			cur.pop_back();
 		}
 	}
